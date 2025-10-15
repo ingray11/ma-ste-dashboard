@@ -9,13 +9,12 @@
       margin: 0;
       padding: 0;
       font-family: 'Noto Sans KR', sans-serif;
-      background: linear-gradient(135deg, #6b48ff 0%, #4f46e5 50%, #2563eb 100%);
-      color: #fff;
+      background: linear-gradient(135deg, #5d3efc 0%, #643cff 50%, #7446ff 100%);
+      color: #ffffff;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: space-between;
     }
 
     /* 상단 네비게이션 */
@@ -33,11 +32,11 @@
     }
 
     .nav-container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
       width: 90%;
       max-width: 1100px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
     .logo {
@@ -59,89 +58,98 @@
     }
 
     .menu a:hover {
-      color: #c7d2fe;
+      color: #dbeafe;
     }
 
-    /* 메인 컨텐츠 */
+    /* 메인 */
     main {
       flex: 1;
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
-      text-align: center;
-      padding: 120px 20px 100px;
-      max-width: 1000px;
-      width: 100%;
-      animation: fadeIn 1.2s ease;
+      width: 90%;
+      max-width: 1100px;
+      padding-top: 130px;
+      gap: 60px;
+      animation: fadeIn 1s ease;
+    }
+
+    .text-block {
+      flex: 1;
+      text-align: left;
     }
 
     .lab-title {
       font-size: 18px;
-      color: #c7d2fe;
+      color: #d1d5ff;
       margin-bottom: 10px;
     }
 
     h1 {
-      font-size: 46px;
-      margin-bottom: 16px;
+      font-size: 44px;
       font-weight: 700;
+      margin-bottom: 18px;
       color: #fff;
     }
 
     p {
-      font-size: 18px;
-      line-height: 1.8;
-      color: #e0e7ff;
-      margin-bottom: 35px;
+      font-size: 17px;
+      color: #f5f6ff;
+      line-height: 1.7;
     }
 
+    /* 오른쪽 버튼 영역 */
     .button-box {
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 16px;
-      padding: 35px 50px;
+      flex: 1;
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      padding: 45px 40px;
       backdrop-filter: blur(8px);
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+      text-align: center;
       transition: 0.3s;
     }
 
     .button-box:hover {
-      background: rgba(255, 255, 255, 0.15);
-      transform: translateY(-5px);
+      background: rgba(255, 255, 255, 0.18);
+      transform: translateY(-4px);
     }
 
     .button-box h3 {
-      margin: 0;
       font-size: 22px;
+      margin-bottom: 20px;
+      font-weight: 600;
       color: #fff;
     }
 
-    .button-box button {
-      margin-top: 20px;
+    .button-box .btn {
+      display: block;
+      margin: 10px auto;
       padding: 12px 26px;
-      background: linear-gradient(90deg, #4f46e5, #6b48ff);
-      color: white;
+      background: linear-gradient(90deg, #7b61ff, #a372ff);
       border: none;
       border-radius: 8px;
-      cursor: pointer;
+      color: white;
       font-size: 16px;
       font-weight: 500;
-      transition: 0.25s;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.25);
+      cursor: pointer;
+      transition: 0.3s;
+      width: 80%;
     }
 
-    .button-box button:hover {
-      background: linear-gradient(90deg, #6b48ff, #4f46e5);
+    .button-box .btn:hover {
+      background: linear-gradient(90deg, #a372ff, #7b61ff);
       transform: translateY(-2px);
     }
 
     /* 하단 */
     footer {
       width: 100%;
-      padding: 25px 0;
       background: rgba(255, 255, 255, 0.1);
       backdrop-filter: blur(12px);
       text-align: center;
+      padding: 25px 0;
+      color: #f1f3ff;
     }
 
     .footer-logos {
@@ -162,13 +170,12 @@
     }
 
     footer p {
-      color: #e5e7eb;
       font-size: 14px;
       margin: 0;
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(30px); }
+      from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
   </style>
@@ -177,7 +184,7 @@
 <body>
   <nav>
     <div class="nav-container">
-      <div class="logo">🏨 가격효과 보정 기반 호텔 수요 예측 시스템</div>
+      <div class="logo">가격효과 보정 기반 호텔 수요 예측 시스템</div>
       <div class="menu">
         <a href="#">Home</a>
         <a href="#">About</a>
@@ -188,17 +195,20 @@
   </nav>
 
   <main>
-    <div class="lab-title">세종대학교</div>
-    <h1>호텔 수요 예측 시스템</h1>
-    <p>
-      MASTe 기반 호텔 객실 수요 예측 및 시각화 시스템.<br>
-      가격효과를 보정한 순수 객실 수요 데이터를 기반으로 신뢰성 높은 예측을 수행합니다.<br>
-      호텔 경영자의 의사결정을 지원하여 운영 효율성을 극대화하는 것을 목표로 합니다.
-    </p>
+    <div class="text-block">
+      <div class="lab-title">세종대학교</div>
+      <h1>호텔 수요 예측 시스템</h1>
+      <p>
+        MASTe 기반 호텔 객실 수요 예측 및 시각화 시스템.<br>
+        가격효과를 보정한 순수 객실 수요 데이터를 기반으로 신뢰성 높은 예측을 수행합니다.<br>
+        호텔 경영자의 의사결정을 지원하여 운영 효율성을 극대화하는 것을 목표로 합니다.
+      </p>
+    </div>
 
     <div class="button-box">
       <h3>📊 객실 수요량 데이터를 통한 예측</h3>
-      <button onclick="location.href='dashboard.html'">대시보드 바로가기</button>
+      <button class="btn" onclick="location.href='dashboard.html'">수요 예측 대시보드</button>
+      <button class="btn" onclick="location.href='performance.html'">모델 성능 대시보드</button>
     </div>
   </main>
 
