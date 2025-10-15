@@ -9,7 +9,7 @@
       margin: 0;
       padding: 0;
       font-family: 'Noto Sans KR', sans-serif;
-      background: linear-gradient(135deg, #5d3efc 0%, #643cff 50%, #7446ff 100%);
+      background: linear-gradient(135deg, #b19cff 0%, #9a7bff 50%, #816dff 100%);
       color: #ffffff;
       min-height: 100vh;
       display: flex;
@@ -27,8 +27,8 @@
       position: fixed;
       top: 0;
       left: 0;
-      z-index: 10;
       background: transparent;
+      z-index: 10;
     }
 
     .nav-container {
@@ -58,20 +58,20 @@
     }
 
     .menu a:hover {
-      color: #dbeafe;
+      color: #f3e8ff;
     }
 
     /* 메인 */
     main {
       flex: 1;
       display: flex;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
       width: 90%;
       max-width: 1100px;
-      padding-top: 130px;
-      gap: 60px;
+      padding-top: 140px;
       animation: fadeIn 1s ease;
+      gap: 60px;
     }
 
     .text-block {
@@ -81,7 +81,7 @@
 
     .lab-title {
       font-size: 18px;
-      color: #d1d5ff;
+      color: #f3e8ff;
       margin-bottom: 10px;
     }
 
@@ -94,31 +94,30 @@
 
     p {
       font-size: 17px;
-      color: #f5f6ff;
+      color: #fdfcff;
       line-height: 1.7;
     }
 
-    /* 오른쪽 버튼 영역 */
+    /* 오른쪽 버튼 */
     .button-box {
       flex: 1;
-      background: rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.15);
       border-radius: 20px;
-      padding: 45px 40px;
+      padding: 50px 40px;
       backdrop-filter: blur(8px);
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
       text-align: center;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
       transition: 0.3s;
     }
 
     .button-box:hover {
       background: rgba(255, 255, 255, 0.18);
-      transform: translateY(-4px);
+      transform: translateY(-3px);
     }
 
     .button-box h3 {
       font-size: 22px;
-      margin-bottom: 20px;
-      font-weight: 600;
+      margin-bottom: 25px;
       color: #fff;
     }
 
@@ -126,19 +125,20 @@
       display: block;
       margin: 10px auto;
       padding: 12px 26px;
-      background: linear-gradient(90deg, #7b61ff, #a372ff);
+      background: linear-gradient(90deg, #a586ff, #c9a4ff);
       border: none;
       border-radius: 8px;
       color: white;
       font-size: 16px;
       font-weight: 500;
       cursor: pointer;
-      transition: 0.3s;
+      transition: all 0.25s ease;
       width: 80%;
+      box-shadow: 0 4px 12px rgba(128, 0, 255, 0.25);
     }
 
     .button-box .btn:hover {
-      background: linear-gradient(90deg, #a372ff, #7b61ff);
+      background: linear-gradient(90deg, #c9a4ff, #a586ff);
       transform: translateY(-2px);
     }
 
@@ -146,10 +146,10 @@
     footer {
       width: 100%;
       background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(12px);
+      backdrop-filter: blur(10px);
       text-align: center;
       padding: 25px 0;
-      color: #f1f3ff;
+      color: #f5f3ff;
     }
 
     .footer-logos {
