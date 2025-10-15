@@ -80,6 +80,13 @@
     }
     .btn.test:hover { background: #059669; transform: translateY(-1px); }
 
+    .btn.full {
+      background: #6366f1; color: white; border: none;
+      border-radius: 8px; padding: 8px 14px; font-weight: 600;
+      cursor: pointer; transition: 0.2s;
+    }
+    .btn.full:hover { background: #4f46e5; transform: translateY(-1px); }
+
     .btn {
       background: #2563eb; color: white; border: none;
       border-radius: 8px; padding: 8px 16px;
@@ -115,12 +122,8 @@
       border-top: 1px solid rgba(255,255,255,0.1); font-size: 14px;
     }
 
-    /* 호텔 선택 강조 */
     #hotelSelect {
-      min-width: 220px;
-      font-size: 15px;
-      color: #1e3a8a;
-      background: #f1f5ff;
+      min-width: 220px; font-size: 15px; color: #1e3a8a; background: #f1f5ff;
     }
   </style>
 </head>
@@ -138,7 +141,6 @@
         <button class="btn period" data-file="pred_28_1.csv">단기 예측 (1일 전 예측)</button>
         <button class="btn period" data-file="pred_56_7.csv">중기 예측 (7일 전 예측)</button>
         <button class="btn period" data-file="pred_128_15.csv">장기 예측 (15일 전 예측)</button>
-        <button class="btn test" id="testRangeBtn">테스트 구간만 보기</button>
       </div>
 
       <div class="row">
@@ -154,10 +156,10 @@
 
       <div class="row">
         <label for="startDate">📅 사용자 선택 구간:</label>
-        <input type="date" id="startDate">
-        <span>~</span>
-        <input type="date" id="endDate">
+        <input type="date" id="startDate"><span>~</span><input type="date" id="endDate">
         <button class="btn" id="applyDate">기간 적용</button>
+        <button class="btn test" id="testRangeBtn">테스트 구간만 보기</button>
+        <button class="btn full" id="fullRangeBtn">전체 구간 보기</button>
       </div>
 
       <p id="periodLabel">📆 현재: 전체 구간 (2023.01–2024.09)</p>
@@ -211,7 +213,6 @@
       document.getElementById("startDate").value = "2023-01-01";
       document.getElementById("endDate").value = "2024-09-30";
 
-      // ✅ 기본 CSV 자동 로드 (단기 예측)
       currentFile = "pred_28_1.csv";
       await loadData(currentFile);
 
@@ -240,6 +241,14 @@
       document.getElementById("endDate").value = "2024-09-30";
       document.getElementById("periodLabel").textContent =
         "📊 현재: 테스트 구간 (2024.07–2024.09)";
+      drawChart();
+    });
+
+    document.getElementById("fullRangeBtn").addEventListener("click", () => {
+      document.getElementById("startDate").value = "2023-01-01";
+      document.getElementById("endDate").value = "2024-09-30";
+      document.getElementById("periodLabel").textContent =
+        "🌍 현재: 전체 구간 (2023.01–2024.09)";
       drawChart();
     });
 
