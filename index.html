@@ -2,301 +2,113 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <title>호텔 수요 예측 대시보드</title>
-  <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
-  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>호텔 수요 예측 시스템</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: 'Jua', sans-serif;
       margin: 0;
-      background-color: #fcfcfc;
-      color: #222;
+      font-family: 'Pretendard', sans-serif;
+      background: linear-gradient(135deg, #6B73FF, #4A00E0);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      overflow: hidden;
+    }
+
+    .fade {
+      animation: fadeIn 1.5s ease-in-out;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 24px;
+      padding: 60px 80px;
       text-align: center;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+      backdrop-filter: blur(12px);
+      animation: floatUp 1.5s ease-in-out;
     }
 
     h1 {
-      font-size: 42px;
-      color: #1e3a8a;
-      margin-bottom: 5px;
-      margin-top: 30px;
+      font-size: 46px;
+      margin-bottom: 12px;
+      letter-spacing: 0.5px;
     }
 
-    .subtitle {
-      color: #555;
-      font-size: 17px;
-      margin-bottom: 25px;
-    }
-
-    .controls {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-
-    .row {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    select, .btn {
-      font-family: 'Jua';
-      font-size: 15px;
-      border: none;
-      border-radius: 14px;
-      padding: 8px 14px;
-      cursor: pointer;
-    }
-
-    select {
-      border: 1px solid #ccc;
+    p {
+      font-size: 18px;
+      color: #E3E3FF;
+      margin-bottom: 40px;
+      line-height: 1.6;
     }
 
     .btn {
-      background: #e0e7ff;
-      color: #1e3a8a;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-      transition: all 0.2s;
+      background: linear-gradient(90deg, #4F46E5, #3B82F6);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 26px;
+      margin: 10px;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
     }
 
     .btn:hover {
-      background: #c7d2fe;
-      transform: scale(1.05);
+      transform: scale(1.07);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
     }
 
-    .btn.active {
-      background: #3b82f6;
-      color: white;
+    .secondary {
+      background: linear-gradient(90deg, #8B5CF6, #6D28D9);
     }
 
-    .btn.primary {
-      background: #2563eb;
-      color: white;
-      font-weight: bold;
+    footer {
+      position: absolute;
+      bottom: 25px;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.7);
+      letter-spacing: 0.3px;
     }
 
-    .label {
-      margin-top: 5px;
-      font-size: 15px;
-      color: #444;
-      font-family: 'Jua';
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
-    #chart {
-      margin: 30px auto;
-      width: 90vw;
-      height: 70vh;
+    @keyframes floatUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    
-    #map {
-      width: 60vw;
-      height: 60vh;
-      margin: 20px auto 40px;
-      border-radius: 16px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      border: 1px solid #ddd;
+    /* 전환 효과 */
+    .fade-out {
+      opacity: 0;
+      transition: opacity 0.8s ease;
     }
   </style>
 </head>
+
 <body>
-  <h1>🏨 호텔 수요 예측 대시보드</h1>
-  <p class="subtitle">MASTe 모델 기반 호텔별 수요 예측 + 위치 시각화</p>
-
-  <div class="controls">
-    <div class="row">
-      <button class="btn period" data-file="pred_28_1.csv">28→1</button>
-      <button class="btn period" data-file="pred_56_7.csv">56→7</button>
-      <button class="btn period" data-file="pred_128_15.csv">128→15</button>
-      <select id="hotelSelect"></select>
-      <select id="viewSelect">
-        <option value="both">실제값 + 예측값</option>
-        <option value="true">실제값만</option>
-        <option value="pred">예측값만</option>
-      </select>
-      <button class="btn toggle" id="togglePeriod">테스트 구간 보기</button>
-      <button class="btn primary" id="drawBtn">그래프 보기</button>
-    </div>
-    <p id="periodLabel" class="label">📆 현재: 전체 구간 (2023.01–2024.09)</p>
+  <div class="card fade">
+    <h1>🏨 호텔 수요 예측 시스템</h1>
+    <p>MASTe 기반 호텔별 객실 수요 예측 및 위치 시각화<br>운영 효율성 극대화를 위한 AI 대시보드</p>
+    <button class="btn" onclick="goToDashboard()">📊 대시보드 보기</button>
+    <button class="btn secondary" onclick="alert('모델 성능 비교 페이지는 준비 중입니다!')">📈 모델 성능 보기</button>
   </div>
-
-  <div id="chart"></div>
-  <div id="map"></div>
+  <footer>© 2025 Sejong Univ |  Hotel Demand Forecasting Project</footer>
 
   <script>
-    const hotelMap = {
-      "HFL01": "켄싱턴호텔 평창",
-      "HGA01": "켄트호텔 광안리",
-      "HLX01": "켄싱턴호텔 여의도",
-      "HNY01": "남원예촌",
-      "HST01": "켄싱턴호텔 설악",
-      "RHK01": "켄싱턴리조트 제주중문",
-      "RHK12": "켄싱턴리조트 지리산남원",
-      "RJR01": "켄싱턴리조트 지리산하동",
-      "RKT01": "켄싱턴리조트 설악비치",
-      "RKT02": "켄싱턴리조트 경주",
-      "RKT03": "켄싱턴리조트 충주",
-      "RKT04": "켄싱턴리조트 제주한림",
-      "RKT05": "켄싱턴리조트 설악밸리2",
-      "RKT07": "켄싱턴리조트 서귀포",
-      "RKT08": "켄싱턴리조트 가평"
-    };
-
-    const hotelCoords = {
-      "HFL01": [37.6341, 128.6796],
-      "HGA01": [35.1531, 129.1183],
-      "HLX01": [37.5208, 126.9274],
-      "HNY01": [35.4064, 127.3850],
-      "HST01": [38.1750, 128.5196],
-      "RHK01": [33.2481, 126.4085],
-      "RHK12": [35.3720, 127.4693],
-      "RJR01": [35.1956, 127.7562],
-      "RKT01": [38.2086, 128.5941],
-      "RKT02": [35.8392, 129.2240],
-      "RKT03": [37.0190, 127.9255],
-      "RKT04": [33.3930, 126.2394],
-      "RKT05": [38.2010, 128.5630],
-      "RKT07": [33.2545, 126.5638],
-      "RKT08": [37.8227, 127.5098]
-    };
-
-    let map;
-    let marker;
-    let currentFile = null;
-    let currentData = [];
-    let showTestOnly = false;
-
-    // 지도 초기화
-    window.onload = function() {
-      map = L.map("map", {
-        center: [36.3, 127.9],
-        zoom: 7,
-        zoomControl: false
-      });
-
-      // 🌤 채도 낮은 밝은 지도
-      L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
-        attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
-        subdomains: 'abcd',
-        maxZoom: 19
-      }).addTo(map);
-    };
-
-    document.querySelectorAll(".period").forEach(btn => {
-      btn.addEventListener("click", async e => {
-        document.querySelectorAll(".period").forEach(b => b.classList.remove("active"));
-        e.target.classList.add("active");
-        currentFile = e.target.dataset.file;
-        await loadData(currentFile);
-      });
-    });
-
-    document.getElementById("togglePeriod").addEventListener("click", () => {
-      showTestOnly = !showTestOnly;
-      document.getElementById("togglePeriod").textContent = showTestOnly ? "전체 구간 보기" : "테스트 구간 보기";
-      drawChart();
-    });
-
-    document.getElementById("drawBtn").addEventListener("click", drawChart);
-
-    async function loadData(file) {
-      const res = await fetch(file);
-      const text = await res.text();
-      currentData = parseCSV(text);
-      const hotels = [...new Set(currentData.map(d => d.hotel))];
-      document.getElementById("hotelSelect").innerHTML = hotels
-        .map(h => `<option value="${h}">${hotelMap[h] || h}</option>`)
-        .join("");
-    }
-
-    function parseCSV(text) {
-      const rows = text.split(/\r?\n/).filter(r => r.trim());
-      const headers = rows[0].split(",").map(h => h.trim().toLowerCase());
-      const idxDate = headers.findIndex(x => x.includes("date"));
-      const idxHotel = headers.findIndex(x => x.includes("hotel") || x.includes("code"));
-      const idxTrue = headers.findIndex(x => x === "y" || x.includes("true"));
-      const idxPred = headers.findIndex(x => x.includes("pred"));
-      return rows.slice(1).map(r => {
-        const c = r.split(",");
-        const d = new Date(c[idxDate]);
-        return {
-          date: d,
-          hotel: c[idxHotel],
-          y_true: parseFloat(c[idxTrue]),
-          y_pred: parseFloat(c[idxPred])
-        };
-      }).filter(d => d.date && !isNaN(d.y_true));
-    }
-
-    function drawChart() {
-      const hotel = document.getElementById("hotelSelect").value;
-      const view = document.getElementById("viewSelect").value;
-      const hotelData = currentData.filter(d => d.hotel === hotel);
-      if (!hotelData.length) return;
-
-      updateMap(hotel);
-
-      const testStart = new Date("2024-06-01");
-      const testEnd = new Date("2024-09-30");
-      const testData = hotelData.filter(d => d.date >= testStart && d.date <= testEnd);
-      const dataToPlot = showTestOnly ? testData : hotelData;
-
-      const trueTrace = {
-        x: dataToPlot.map(d => d.date),
-        y: dataToPlot.map(d => d.y_true),
-        name: "실제값",
-        mode: "lines+markers",
-        line: { color: "#3B82F6", width: 2 },
-        connectgaps: false
-      };
-
-      const predTrace = {
-        x: dataToPlot.map(d => d.date),
-        y: dataToPlot.map(d => isNaN(d.y_pred) ? null : d.y_pred),
-        name: "예측값",
-        mode: "lines+markers",
-        line: { color: "#F97316", width: 2 },
-        connectgaps: false
-      };
-
-      const [input, output] = currentFile.match(/\d+/g) || [28, 1];
-      const titleText = `${hotelMap[hotel] || hotel} — ${input}일 입력, ${output}일 예측`;
-
-      const layout = {
-        title: { text: `📊 ${titleText}`, font: { family: "Jua", size: 20 }, x: 0.5 },
-        xaxis: {
-          title: "날짜",
-          tickformat: "%y-%m",
-          dtick: 1000 * 60 * 60 * 24 * 15,
-          range: showTestOnly ? ["2024-06-01", "2024-09-30"] : ["2023-01-01", "2024-09-30"]
-        },
-        yaxis: { title: "예약 수요량" },
-        legend: { font: { family: "Jua" } },
-        plot_bgcolor: "#fff",
-        paper_bgcolor: "#fff"
-      };
-
-      const traces = view === "true" ? [trueTrace] : view === "pred" ? [predTrace] : [trueTrace, predTrace];
-      Plotly.newPlot("chart", traces, layout, { responsive: true });
-
-      document.getElementById("periodLabel").textContent = showTestOnly
-        ? "📆 현재: 테스트 구간 (2024.06–2024.09)"
-        : "📆 현재: 전체 구간 (2023.01–2024.09)";
-    }
-
-    function updateMap(hotelCode) {
-      if (!hotelCoords[hotelCode]) return;
-      const [lat, lng] = hotelCoords[hotelCode];
-      map.setView([lat, lng], 9);
-      if (marker) marker.remove();
-      marker = L.marker([lat, lng]).addTo(map)
-        .bindPopup(hotelMap[hotelCode])
-        .openPopup();
+    function goToDashboard() {
+      document.body.classList.add("fade-out");
+      setTimeout(() => {
+        window.location.href = "dashboard.html";
+      }, 800);
     }
   </script>
 </body>
