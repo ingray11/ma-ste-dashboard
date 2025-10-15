@@ -9,7 +9,7 @@
       margin: 0;
       padding: 0;
       font-family: 'Noto Sans KR', sans-serif;
-      background: linear-gradient(135deg, #b19cff 0%, #9a7bff 50%, #816dff 100%);
+      background: linear-gradient(135deg, #b8a8ff 0%, #a388ff 50%, #8c7aff 100%);
       color: #ffffff;
       min-height: 100vh;
       display: flex;
@@ -98,7 +98,7 @@
       line-height: 1.7;
     }
 
-    /* 오른쪽 버튼 */
+    /* 오른쪽 버튼 박스 */
     .button-box {
       flex: 1;
       background: rgba(255, 255, 255, 0.15);
@@ -108,6 +108,11 @@
       text-align: center;
       box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
       transition: 0.3s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
     }
 
     .button-box:hover {
@@ -117,29 +122,29 @@
 
     .button-box h3 {
       font-size: 22px;
-      margin-bottom: 25px;
       color: #fff;
+      margin-bottom: 10px;
+      font-weight: 600;
     }
 
-    .button-box .btn {
-      display: block;
-      margin: 10px auto;
-      padding: 12px 26px;
-      background: linear-gradient(90deg, #a586ff, #c9a4ff);
-      border: none;
-      border-radius: 8px;
-      color: white;
-      font-size: 16px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.25s ease;
+    .btn {
       width: 80%;
-      box-shadow: 0 4px 12px rgba(128, 0, 255, 0.25);
+      padding: 20px 0;
+      background: linear-gradient(90deg, #9e7bff, #c0a6ff);
+      border: none;
+      border-radius: 12px;
+      color: white;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(140, 100, 255, 0.3);
     }
 
-    .button-box .btn:hover {
-      background: linear-gradient(90deg, #c9a4ff, #a586ff);
-      transform: translateY(-2px);
+    .btn:hover {
+      background: linear-gradient(90deg, #c0a6ff, #9e7bff);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(150, 110, 255, 0.4);
     }
 
     /* 하단 */
@@ -184,7 +189,7 @@
 <body>
   <nav>
     <div class="nav-container">
-      <div class="logo">가격효과 보정 기반 호텔 수요 예측 시스템</div>
+      <div class="logo">💠가격효과 보정 기반 호텔 수요 예측 시스템</div>
       <div class="menu">
         <a href="#">Home</a>
         <a href="#">About</a>
