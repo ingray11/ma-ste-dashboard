@@ -4,17 +4,17 @@
   <meta charset="UTF-8">
   <title>호텔 수요 예측 대시보드</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
   <style>
     body {
       margin: 0;
       padding: 0;
       font-family: 'Noto Sans KR', sans-serif;
-      background: linear-gradient(135deg, #b8a8ff 0%, #9c88ff 50%, #8c7aff 100%);
+      background: linear-gradient(135deg, #b8a8ff 0%, #a084ff 50%, #8c7aff 100%);
       color: #1e1e1e;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
     }
 
     /* 상단 헤더 */
@@ -22,26 +22,22 @@
       width: 100%;
       background: #1e3478;
       color: white;
-      padding: 20px 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      text-align: center;
+      padding: 25px 0;
       position: relative;
       box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
     }
 
     header h1 {
       margin: 0;
-      font-size: 26px;
+      font-size: 28px;
       font-weight: 700;
-      letter-spacing: 0.5px;
     }
 
     header p {
-      margin: 4px 0 0;
+      margin-top: 6px;
       font-size: 14px;
-      font-weight: 400;
-      opacity: 0.9;
+      color: #dbeafe;
     }
 
     /* ← 메인으로 버튼 */
@@ -50,133 +46,158 @@
       left: 40px;
       top: 50%;
       transform: translateY(-50%);
-      background: #dcdfe3;
-      color: #1f2937;
+      background: #e2e8f0;
+      color: #1e293b;
       border: none;
       border-radius: 8px;
       padding: 8px 16px;
       font-size: 14px;
-      font-weight: 500;
       cursor: pointer;
       transition: 0.2s;
     }
 
     .back-btn:hover {
-      background: #c6c9ce;
-      transform: translateY(-50%) scale(1.03);
+      background: #cbd5e1;
+      transform: translateY(-50%) scale(1.05);
     }
 
-    /* 메인 콘텐츠 */
+    /* 메인 컨테이너 */
     main {
-      flex: 1;
-      width: 85%;
+      width: 90%;
       max-width: 1100px;
-      background: #f5f7ff;
-      margin-top: 40px;
-      border-radius: 16px;
+      background: #f8f9ff;
+      margin: 40px auto 60px;
+      border-radius: 20px;
       box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
-      padding: 30px 40px 60px 40px;
+      padding: 40px;
       text-align: center;
     }
 
-    .section-title {
-      font-size: 20px;
-      font-weight: 600;
-      color: #1e3478;
-      margin-bottom: 10px;
-    }
-
-    .section-subtitle {
-      color: #555;
-      font-size: 15px;
+    /* 컨트롤 박스 */
+    .controls {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      padding: 25px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
       margin-bottom: 30px;
     }
 
-    /* 선택 필터 영역 */
-    .filter-box {
-      background: #fff;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    .row {
       display: flex;
       justify-content: center;
-      align-items: center;
       flex-wrap: wrap;
       gap: 10px;
-      margin-bottom: 25px;
     }
 
     select, input[type="date"], button {
-      font-family: 'Noto Sans KR', sans-serif;
+      font-family: 'Noto Sans KR';
       border: 1px solid #cbd5e1;
       border-radius: 8px;
       padding: 8px 12px;
       font-size: 14px;
     }
 
-    button {
-      background: #1e3a8a;
-      color: white;
-      cursor: pointer;
+    /* 기간 버튼 */
+    .btn.period {
+      background: #e0e7ff;
+      color: #1e3a8a;
       border: none;
+      cursor: pointer;
+      transition: 0.2s;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-weight: 600;
+    }
+
+    .btn.period:hover {
+      background: #c7d2fe;
+    }
+
+    .btn.period.active {
+      background: #2563eb;
+      color: white;
+      box-shadow: 0 3px 10px rgba(37, 99, 235, 0.3);
+    }
+
+    .btn {
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-weight: 600;
+      cursor: pointer;
       transition: 0.2s;
     }
 
-    button:hover {
-      background: #172554;
+    .btn:hover {
+      background: #1d4ed8;
+      transform: translateY(-1px);
     }
 
-    /* 카드 통계 */
-    .summary-cards {
+    label {
+      color: #1e3a8a;
+      font-size: 14px;
+    }
+
+    /* 카드 */
+    .card-container {
       display: flex;
       justify-content: center;
-      align-items: center;
-      gap: 30px;
-      margin: 35px 0;
+      gap: 20px;
       flex-wrap: wrap;
+      margin: 30px 0;
     }
 
     .card {
       background: white;
-      width: 200px;
-      height: 100px;
       border-radius: 12px;
-      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+      padding: 20px 30px;
+      min-width: 160px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
     }
 
     .card h3 {
       color: #1e3a8a;
-      margin: 0;
       font-size: 16px;
-      font-weight: 600;
+      margin-bottom: 8px;
     }
 
     .card p {
-      margin: 5px 0 0;
-      color: #111;
+      color: #475569;
       font-size: 15px;
-      font-weight: 500;
+      margin: 0;
     }
 
-    /* 그래프 영역 */
-    .chart-box {
+    #chart {
       background: white;
-      border-radius: 14px;
-      padding: 30px;
-      height: 400px;
-      box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+      border-radius: 16px;
+      padding: 15px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      width: 100%;
+      height: 60vh;
     }
 
-    /* 푸터 */
+    #map {
+      width: 420px;
+      height: 300px;
+      margin: 30px auto;
+      border-radius: 12px;
+      border: 1px solid #ccc;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
     footer {
       text-align: center;
       padding: 25px 0;
-      color: #eaeaea;
-      font-size: 13px;
+      color: #f5f3ff;
+      background: rgba(30, 52, 120, 0.9);
+      border-top: 1px solid rgba(255,255,255,0.1);
+      font-size: 14px;
     }
   </style>
 </head>
@@ -184,62 +205,186 @@
 <body>
   <header>
     <button class="back-btn" onclick="location.href='index.html'">← 메인으로</button>
-    <div>
-      <h1>🏨 호텔 수요 예측 대시보드</h1>
-      <p>MASTe 모델 기반 호텔별 수요 예측 및 시각화</p>
-    </div>
+    <h1>🏨 호텔 수요 예측 대시보드</h1>
+    <p>MASTe 모델 기반 호텔별 수요 예측 및 위치 시각화</p>
   </header>
 
   <main>
-    <div class="filter-box">
-      <select>
-        <option>단기 (28→1)</option>
-        <option>중기 (56→7)</option>
-        <option>장기 (128→15)</option>
-      </select>
+    <div class="controls">
+      <div class="row">
+        <button class="btn period" data-file="pred_28_1.csv">단기 (28→1)</button>
+        <button class="btn period" data-file="pred_56_7.csv">중기 (56→7)</button>
+        <button class="btn period" data-file="pred_128_15.csv">장기 (128→15)</button>
 
-      <select>
-        <option>호텔A</option>
-        <option>호텔B</option>
-      </select>
+        <select id="hotelSelect"></select>
+        <select id="viewSelect">
+          <option value="both">실제값 + 예측값</option>
+          <option value="true">실제값만</option>
+          <option value="pred">예측값만</option>
+        </select>
+        <button class="btn" id="drawBtn">그래프 보기</button>
+      </div>
 
-      <select>
-        <option>실제값 + 예측값</option>
-        <option>예측값만</option>
-      </select>
+      <div class="row">
+        <label for="startDate">📅 사용자 선택 구간:</label>
+        <input type="date" id="startDate">
+        <span>~</span>
+        <input type="date" id="endDate">
+        <button class="btn" id="applyDate">기간 적용</button>
+      </div>
 
-      <input type="date" value="2023-01-01">
-      <input type="date" value="2024-09-30">
-
-      <button>그래프 보기</button>
+      <p id="periodLabel">📆 현재: 전체 구간 (2023.01–2024.09)</p>
     </div>
 
-    <p style="color:#334155; font-size:14px; margin-bottom:10px;">
-      전체 조회 구간 (2023-01 ~ 2024-09)
-    </p>
-
-    <div class="summary-cards">
-      <div class="card">
-        <h3>총 데이터</h3>
-        <p>-</p>
-      </div>
-      <div class="card">
-        <h3>선택 호텔</h3>
-        <p>-</p>
-      </div>
-      <div class="card">
-        <h3>기간</h3>
-        <p>-</p>
-      </div>
+    <div class="card-container">
+      <div class="card"><h3>총 데이터</h3><p id="dataCount">-</p></div>
+      <div class="card"><h3>선택 호텔</h3><p id="hotelName">-</p></div>
+      <div class="card"><h3>기간</h3><p id="dateRangeLabel">-</p></div>
     </div>
 
-    <div class="chart-box">
-      📈 그래프 시각화 영역 (예: Plotly, Chart.js 등)
-    </div>
+    <div id="chart"></div>
+    <div id="map"></div>
   </main>
 
   <footer>
     © 2025 세종대학교 — 호텔 수요 예측 시스템
   </footer>
+
+  <script>
+    const hotelMap = {
+      "HFL01": "켄싱턴호텔 평창", "HGA01": "켄트호텔 광안리", "HLX01": "켄싱턴호텔 여의도",
+      "HNY01": "남원예촌", "HST01": "켄싱턴호텔 설악", "RHK01": "켄싱턴리조트 제주중문",
+      "RHK12": "켄싱턴리조트 지리산남원", "RJR01": "켄싱턴리조트 지리산하동",
+      "RKT01": "켄싱턴리조트 설악비치", "RKT02": "켄싱턴리조트 경주",
+      "RKT03": "켄싱턴리조트 충주", "RKT04": "켄싱턴리조트 제주한림",
+      "RKT05": "켄싱턴리조트 설악밸리2", "RKT07": "켄싱턴리조트 서귀포",
+      "RKT08": "켄싱턴리조트 가평"
+    };
+
+    const hotelCoords = {
+      "HFL01": [37.6341, 128.6796], "HGA01": [35.1531, 129.1183],
+      "HLX01": [37.5208, 126.9274], "HNY01": [35.4064, 127.3850],
+      "HST01": [38.1750, 128.5196], "RHK01": [33.2481, 126.4085],
+      "RHK12": [35.3720, 127.4693], "RJR01": [35.1956, 127.7562],
+      "RKT01": [38.2086, 128.5941], "RKT02": [35.8392, 129.2240],
+      "RKT03": [37.0190, 127.9255], "RKT04": [33.3930, 126.2394],
+      "RKT05": [38.2010, 128.5630], "RKT07": [33.2545, 126.5638],
+      "RKT08": [37.8227, 127.5098]
+    };
+
+    let map, marker, currentFile = null, currentData = [];
+
+    window.onload = function() {
+      map = L.map("map", { center: [36.3, 127.9], zoom: 7, zoomControl: false });
+      L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+        attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
+        subdomains: 'abcd', maxZoom: 19
+      }).addTo(map);
+
+      document.getElementById("startDate").value = "2023-01-01";
+      document.getElementById("endDate").value = "2024-09-30";
+    };
+
+    document.querySelectorAll(".period").forEach(btn => {
+      btn.addEventListener("click", async e => {
+        document.querySelectorAll(".period").forEach(b => b.classList.remove("active"));
+        e.target.classList.add("active");
+        currentFile = e.target.dataset.file;
+        await loadData(currentFile);
+        drawChart();
+      });
+    });
+
+    document.getElementById("applyDate").addEventListener("click", drawChart);
+    document.getElementById("drawBtn").addEventListener("click", drawChart);
+
+    async function loadData(file) {
+      const res = await fetch(file);
+      const text = await res.text();
+      currentData = parseCSV(text);
+      const hotels = [...new Set(currentData.map(d => d.hotel))];
+      document.getElementById("hotelSelect").innerHTML =
+        hotels.map(h => `<option value="${h}">${hotelMap[h] || h}</option>`).join("");
+    }
+
+    function parseCSV(text) {
+      const rows = text.split(/\r?\n/).filter(r => r.trim());
+      const headers = rows[0].split(",").map(h => h.trim().toLowerCase());
+      const idxDate = headers.findIndex(x => x.includes("date"));
+      const idxHotel = headers.findIndex(x => x.includes("hotel") || x.includes("code"));
+      const idxTrue = headers.findIndex(x => x === "y" || x.includes("true"));
+      const idxPred = headers.findIndex(x => x.includes("pred"));
+      return rows.slice(1).map(r => {
+        const c = r.split(",");
+        const d = new Date(c[idxDate]);
+        return { date: d, hotel: c[idxHotel], y_true: parseFloat(c[idxTrue]), y_pred: parseFloat(c[idxPred]) };
+      }).filter(d => d.date && !isNaN(d.y_true));
+    }
+
+    function drawChart() {
+      if (!currentData.length) return;
+      const hotel = document.getElementById("hotelSelect").value;
+      const view = document.getElementById("viewSelect").value;
+
+      let startVal = document.getElementById("startDate").value || "2023-01-01";
+      let endVal = document.getElementById("endDate").value || "2024-09-30";
+      const start = new Date(startVal);
+      const end = new Date(endVal);
+
+      const hotelData = currentData.filter(d => d.hotel === hotel && d.date >= start && d.date <= end);
+      if (!hotelData.length) return;
+
+      document.getElementById("hotelName").textContent = hotelMap[hotel] || hotel;
+      document.getElementById("dataCount").textContent = hotelData.length.toLocaleString();
+      document.getElementById("dateRangeLabel").textContent =
+        `${start.toISOString().split("T")[0]} ~ ${end.toISOString().split("T")[0]}`;
+
+      updateMap(hotel);
+
+      const trueTrace = {
+        x: hotelData.map(d => d.date),
+        y: hotelData.map(d => d.y_true),
+        name: "실제값",
+        mode: "lines+markers",
+        line: { color: "#3B82F6", width: 2 }
+      };
+
+      const predTrace = {
+        x: hotelData.map(d => d.date),
+        y: hotelData.map(d => d.y_pred),
+        name: "예측값",
+        mode: "lines+markers",
+        line: { color: "#F97316", width: 2 }
+      };
+
+      const traces = view === "true" ? [trueTrace] : view === "pred" ? [predTrace] : [trueTrace, predTrace];
+      Plotly.newPlot("chart", traces, {
+        title: { text: `${hotelMap[hotel] || hotel}`, font: { family: "Noto Sans KR", size: 18 }, x: 0.5 },
+        xaxis: {
+          title: "날짜",
+          tickformat: "%Y-%m-%d",
+          tickangle: -45,
+          showgrid: true,
+          gridcolor: "#eee",
+          range: [start, end]
+        },
+        yaxis: { title: "예약 수요량" },
+        legend: { font: { family: "Noto Sans KR" } },
+        plot_bgcolor: "#fff",
+        paper_bgcolor: "#fff"
+      }, { responsive: true });
+
+      document.getElementById("periodLabel").textContent =
+        `📆 현재 구간: ${start.toLocaleDateString()} ~ ${end.toLocaleDateString()}`;
+    }
+
+    function updateMap(hotelCode) {
+      if (!hotelCoords[hotelCode]) return;
+      const [lat, lng] = hotelCoords[hotelCode];
+      map.setView([lat, lng], 10);
+      if (marker) marker.remove();
+      marker = L.marker([lat, lng]).addTo(map).bindPopup(hotelMap[hotelCode]).openPopup();
+    }
+  </script>
 </body>
 </html>
