@@ -91,6 +91,7 @@
       justify-content: center;
       flex-wrap: wrap;
       gap: 10px;
+      align-items: center;
     }
 
     select, input[type="date"], button {
@@ -121,6 +122,23 @@
       background: #2563eb;
       color: white;
       box-shadow: 0 3px 10px rgba(37, 99, 235, 0.3);
+    }
+
+    /* 테스트 구간 버튼 */
+    .btn.test {
+      background: #10b981;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .btn.test:hover {
+      background: #059669;
+      transform: translateY(-1px);
     }
 
     .btn {
@@ -215,16 +233,8 @@
         <button class="btn period" data-file="pred_28_1.csv">단기 예측 (1일 전 예측)</button>
         <button class="btn period" data-file="pred_56_7.csv">중기 예측 (7일 전 예측)</button>
         <button class="btn period" data-file="pred_128_15.csv">장기 예측 (15일 전 예측)</button>
-      
-        <select id="hotelSelect"></select>
-        <select id="viewSelect">
-          <option value="both">실제값 + 예측값</option>
-          <option value="true">실제값만</option>
-          <option value="pred">예측값만</option>
-        </select>
-        <button class="btn" id="drawBtn">그래프 보기</button>
+        <button class="btn test" id="testRangeBtn">테스트 구간만 보기</button>
       </div>
-
 
       <div class="row">
         <label for="startDate">📅 사용자 선택 구간:</label>
@@ -298,6 +308,15 @@
 
     document.getElementById("applyDate").addEventListener("click", drawChart);
     document.getElementById("drawBtn").addEventListener("click", drawChart);
+
+    // ✅ 테스트 구간만 보기 버튼 기능 추가
+    document.getElementById("testRangeBtn").addEventListener("click", () => {
+      document.getElementById("startDate").value = "2024-07-01";
+      document.getElementById("endDate").value = "2024-09-30";
+      document.getElementById("periodLabel").textContent =
+        "📊 현재: 테스트 구간 (2024.07–2024.09)";
+      drawChart();
+    });
 
     async function loadData(file) {
       const res = await fetch(file);
@@ -389,4 +408,3 @@
   </script>
 </body>
 </html>
-
