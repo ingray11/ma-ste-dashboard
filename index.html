@@ -9,7 +9,7 @@
       margin: 0;
       padding: 0;
       font-family: 'Noto Sans KR', sans-serif;
-      background: linear-gradient(135deg, #b8a8ff 0%, #a388ff 50%, #8c7aff 100%);
+      background: linear-gradient(135deg, #bba6ff 0%, #a17dff 50%, #8c6fff 100%);
       color: #ffffff;
       min-height: 100vh;
       display: flex;
@@ -47,7 +47,7 @@
 
     .menu {
       display: flex;
-      gap: 30px;
+      gap: 25px;
     }
 
     .menu a {
@@ -55,10 +55,20 @@
       text-decoration: none;
       font-size: 15px;
       transition: 0.25s;
+      padding: 8px 14px;
+      border-radius: 6px;
     }
 
     .menu a:hover {
-      color: #f3e8ff;
+      color: #fff;
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    /* Contact 강조 */
+    .menu a.active {
+      background: #2563eb;
+      color: #fff;
+      box-shadow: 0 3px 10px rgba(37, 99, 235, 0.3);
     }
 
     /* 메인 */
@@ -101,9 +111,9 @@
     /* 오른쪽 버튼 박스 */
     .button-box {
       flex: 1;
-      background: rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.12);
       border-radius: 20px;
-      padding: 50px 40px;
+      padding: 45px 35px;
       backdrop-filter: blur(8px);
       text-align: center;
       box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
@@ -111,40 +121,54 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      gap: 20px;
+      gap: 22px;
+      max-width: 320px;
     }
 
     .button-box:hover {
-      background: rgba(255, 255, 255, 0.18);
-      transform: translateY(-3px);
+      background: rgba(255, 255, 255, 0.16);
     }
 
     .button-box h3 {
-      font-size: 22px;
+      font-size: 21px;
       color: #fff;
       margin-bottom: 10px;
       font-weight: 600;
     }
 
+    /* 버튼 공통 */
     .btn {
-      width: 80%;
-      padding: 20px 0;
-      background: linear-gradient(90deg, #9e7bff, #c0a6ff);
+      width: 85%;
+      height: 70px;
       border: none;
-      border-radius: 12px;
-      color: white;
-      font-size: 18px;
+      border-radius: 10px;
+      color: #fff;
+      font-size: 17px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s ease;
-      box-shadow: 0 5px 15px rgba(140, 100, 255, 0.3);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
     }
 
     .btn:hover {
-      background: linear-gradient(90deg, #c0a6ff, #9e7bff);
       transform: translateY(-3px);
-      box-shadow: 0 6px 20px rgba(150, 110, 255, 0.4);
+    }
+
+    /* 버튼 색상 */
+    .btn-lightblue {
+      background: #3b82f6;
+    }
+
+    .btn-lightblue:hover {
+      background: #2563eb;
+    }
+
+    .btn-darkblue {
+      background: #1e3a8a;
+    }
+
+    .btn-darkblue:hover {
+      background: #172554;
     }
 
     /* 하단 */
@@ -189,12 +213,12 @@
 <body>
   <nav>
     <div class="nav-container">
-      <div class="logo">💠가격효과 보정 기반 호텔 수요 예측 시스템</div>
+      <div class="logo">가격효과 보정 기반 호텔 수요 예측 시스템</div>
       <div class="menu">
         <a href="#">Home</a>
         <a href="#">About</a>
         <a href="#">System</a>
-        <a href="#">Contact</a>
+        <a href="#" class="active">Contact</a>
       </div>
     </div>
   </nav>
@@ -212,8 +236,8 @@
 
     <div class="button-box">
       <h3>📊 객실 수요량 데이터를 통한 예측</h3>
-      <button class="btn" onclick="location.href='dashboard.html'">수요 예측 대시보드</button>
-      <button class="btn" onclick="location.href='performance.html'">모델 성능 대시보드</button>
+      <button class="btn btn-lightblue" onclick="location.href='dashboard.html'">수요 예측 대시보드</button>
+      <button class="btn btn-darkblue" onclick="location.href='performance.html'">모델 성능 대시보드</button>
     </div>
   </main>
 
