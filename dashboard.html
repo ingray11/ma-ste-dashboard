@@ -17,7 +17,6 @@
       color: #1e1e1e;
     }
 
-    /* 상단 헤더 */
     header {
       width: 100%;
       background: #1e3478;
@@ -28,194 +27,100 @@
       box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
     }
 
-    header h1 {
-      margin: 0;
-      font-size: 28px;
-      font-weight: 700;
-    }
+    header h1 { margin: 0; font-size: 28px; font-weight: 700; }
+    header p { margin-top: 6px; font-size: 14px; color: #dbeafe; }
 
-    header p {
-      margin-top: 6px;
-      font-size: 14px;
-      color: #dbeafe;
-    }
-
-    /* ← 메인으로 버튼 */
     .back-btn {
-      position: absolute;
-      left: 40px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: #e2e8f0;
-      color: #1e293b;
-      border: none;
-      border-radius: 8px;
-      padding: 8px 16px;
-      font-size: 14px;
-      cursor: pointer;
-      transition: 0.2s;
+      position: absolute; left: 40px; top: 50%; transform: translateY(-50%);
+      background: #e2e8f0; color: #1e293b; border: none; border-radius: 8px;
+      padding: 8px 16px; font-size: 14px; cursor: pointer; transition: 0.2s;
     }
+    .back-btn:hover { background: #cbd5e1; transform: translateY(-50%) scale(1.05); }
 
-    .back-btn:hover {
-      background: #cbd5e1;
-      transform: translateY(-50%) scale(1.05);
-    }
-
-    /* 메인 컨테이너 */
     main {
-      width: 90%;
-      max-width: 1100px;
-      background: #f8f9ff;
-      margin: 40px auto 60px;
-      border-radius: 20px;
+      width: 90%; max-width: 1100px; background: #f8f9ff;
+      margin: 40px auto 60px; border-radius: 20px;
       box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
-      padding: 40px;
-      text-align: center;
+      padding: 40px; text-align: center;
     }
 
-    /* 컨트롤 박스 */
     .controls {
-      background: white;
-      border-radius: 16px;
+      background: white; border-radius: 16px;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-      padding: 25px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 15px;
-      margin-bottom: 30px;
+      padding: 25px; display: flex; flex-direction: column;
+      align-items: center; gap: 15px; margin-bottom: 30px;
     }
 
     .row {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 10px;
-      align-items: center;
+      display: flex; justify-content: center;
+      flex-wrap: wrap; gap: 10px; align-items: center;
     }
 
     select, input[type="date"], button {
       font-family: 'Noto Sans KR';
       border: 1px solid #cbd5e1;
-      border-radius: 8px;
-      padding: 8px 12px;
-      font-size: 14px;
+      border-radius: 8px; padding: 8px 12px; font-size: 14px;
     }
 
-    /* 기간 버튼 */
     .btn.period {
-      background: #e0e7ff;
-      color: #1e3a8a;
-      border: none;
-      cursor: pointer;
-      transition: 0.2s;
-      padding: 8px 14px;
-      border-radius: 8px;
-      font-weight: 600;
+      background: #e0e7ff; color: #1e3a8a;
+      border: none; cursor: pointer; transition: 0.2s;
+      padding: 8px 14px; border-radius: 8px; font-weight: 600;
     }
-
-    .btn.period:hover {
-      background: #c7d2fe;
-    }
-
+    .btn.period:hover { background: #c7d2fe; }
     .btn.period.active {
-      background: #2563eb;
-      color: white;
+      background: #2563eb; color: white;
       box-shadow: 0 3px 10px rgba(37, 99, 235, 0.3);
     }
 
-    /* 테스트 구간 버튼 */
     .btn.test {
-      background: #10b981;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      padding: 8px 14px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: 0.2s;
+      background: #10b981; color: white; border: none;
+      border-radius: 8px; padding: 8px 14px; font-weight: 600;
+      cursor: pointer; transition: 0.2s;
     }
-
-    .btn.test:hover {
-      background: #059669;
-      transform: translateY(-1px);
-    }
+    .btn.test:hover { background: #059669; transform: translateY(-1px); }
 
     .btn {
-      background: #2563eb;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      padding: 8px 16px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: 0.2s;
+      background: #2563eb; color: white; border: none;
+      border-radius: 8px; padding: 8px 16px;
+      font-weight: 600; cursor: pointer; transition: 0.2s;
     }
+    .btn:hover { background: #1d4ed8; transform: translateY(-1px); }
 
-    .btn:hover {
-      background: #1d4ed8;
-      transform: translateY(-1px);
-    }
+    label { color: #1e3a8a; font-size: 14px; }
 
-    label {
-      color: #1e3a8a;
-      font-size: 14px;
-    }
-
-    /* 카드 */
-    .card-container {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      flex-wrap: wrap;
-      margin: 30px 0;
-    }
-
+    .card-container { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin: 30px 0; }
     .card {
-      background: white;
-      border-radius: 12px;
-      padding: 20px 30px;
-      min-width: 160px;
+      background: white; border-radius: 12px;
+      padding: 20px 30px; min-width: 160px;
       box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
     }
-
-    .card h3 {
-      color: #1e3a8a;
-      font-size: 16px;
-      margin-bottom: 8px;
-    }
-
-    .card p {
-      color: #475569;
-      font-size: 15px;
-      margin: 0;
-    }
+    .card h3 { color: #1e3a8a; font-size: 16px; margin-bottom: 8px; }
+    .card p { color: #475569; font-size: 15px; margin: 0; }
 
     #chart {
-      background: white;
-      border-radius: 16px;
-      padding: 15px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-      width: 100%;
-      height: 60vh;
+      background: white; border-radius: 16px;
+      padding: 15px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      width: 100%; height: 60vh;
     }
-
     #map {
-      width: 420px;
-      height: 300px;
-      margin: 30px auto;
-      border-radius: 12px;
-      border: 1px solid #ccc;
+      width: 420px; height: 300px; margin: 30px auto;
+      border-radius: 12px; border: 1px solid #ccc;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     }
 
     footer {
-      text-align: center;
-      padding: 25px 0;
-      color: #f5f3ff;
+      text-align: center; padding: 25px 0; color: #f5f3ff;
       background: rgba(30, 52, 120, 0.9);
-      border-top: 1px solid rgba(255,255,255,0.1);
-      font-size: 14px;
+      border-top: 1px solid rgba(255,255,255,0.1); font-size: 14px;
+    }
+
+    /* 호텔 선택 강조 */
+    #hotelSelect {
+      min-width: 220px;
+      font-size: 15px;
+      color: #1e3a8a;
+      background: #f1f5ff;
     }
   </style>
 </head>
@@ -234,6 +139,17 @@
         <button class="btn period" data-file="pred_56_7.csv">중기 예측 (7일 전 예측)</button>
         <button class="btn period" data-file="pred_128_15.csv">장기 예측 (15일 전 예측)</button>
         <button class="btn test" id="testRangeBtn">테스트 구간만 보기</button>
+      </div>
+
+      <div class="row">
+        <label for="hotelSelect">🏨 호텔 선택:</label>
+        <select id="hotelSelect"></select>
+        <select id="viewSelect">
+          <option value="both">실제값 + 예측값</option>
+          <option value="true">실제값만</option>
+          <option value="pred">예측값만</option>
+        </select>
+        <button class="btn" id="drawBtn">그래프 보기</button>
       </div>
 
       <div class="row">
@@ -285,7 +201,7 @@
 
     let map, marker, currentFile = null, currentData = [];
 
-    window.onload = function() {
+    window.onload = async function() {
       map = L.map("map", { center: [36.3, 127.9], zoom: 7, zoomControl: false });
       L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
         attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
@@ -294,6 +210,16 @@
 
       document.getElementById("startDate").value = "2023-01-01";
       document.getElementById("endDate").value = "2024-09-30";
+
+      // ✅ 기본 CSV 자동 로드 (단기 예측)
+      currentFile = "pred_28_1.csv";
+      await loadData(currentFile);
+
+      const hotels = [...new Set(currentData.map(d => d.hotel))];
+      if (hotels.length > 0) {
+        document.getElementById("hotelSelect").value = hotels[0];
+        drawChart();
+      }
     };
 
     document.querySelectorAll(".period").forEach(btn => {
@@ -309,7 +235,6 @@
     document.getElementById("applyDate").addEventListener("click", drawChart);
     document.getElementById("drawBtn").addEventListener("click", drawChart);
 
-    // ✅ 테스트 구간만 보기 버튼 기능 추가
     document.getElementById("testRangeBtn").addEventListener("click", () => {
       document.getElementById("startDate").value = "2024-07-01";
       document.getElementById("endDate").value = "2024-09-30";
@@ -346,10 +271,8 @@
       const hotel = document.getElementById("hotelSelect").value;
       const view = document.getElementById("viewSelect").value;
 
-      let startVal = document.getElementById("startDate").value || "2023-01-01";
-      let endVal = document.getElementById("endDate").value || "2024-09-30";
-      const start = new Date(startVal);
-      const end = new Date(endVal);
+      const start = new Date(document.getElementById("startDate").value || "2023-01-01");
+      const end = new Date(document.getElementById("endDate").value || "2024-09-30");
 
       const hotelData = currentData.filter(d => d.hotel === hotel && d.date >= start && d.date <= end);
       if (!hotelData.length) return;
@@ -362,36 +285,21 @@
       updateMap(hotel);
 
       const trueTrace = {
-        x: hotelData.map(d => d.date),
-        y: hotelData.map(d => d.y_true),
-        name: "실제값",
-        mode: "lines+markers",
-        line: { color: "#3B82F6", width: 2 }
+        x: hotelData.map(d => d.date), y: hotelData.map(d => d.y_true),
+        name: "실제값", mode: "lines+markers", line: { color: "#3B82F6", width: 2 }
       };
-
       const predTrace = {
-        x: hotelData.map(d => d.date),
-        y: hotelData.map(d => d.y_pred),
-        name: "예측값",
-        mode: "lines+markers",
-        line: { color: "#F97316", width: 2 }
+        x: hotelData.map(d => d.date), y: hotelData.map(d => d.y_pred),
+        name: "예측값", mode: "lines+markers", line: { color: "#F97316", width: 2 }
       };
 
       const traces = view === "true" ? [trueTrace] : view === "pred" ? [predTrace] : [trueTrace, predTrace];
       Plotly.newPlot("chart", traces, {
         title: { text: `${hotelMap[hotel] || hotel}`, font: { family: "Noto Sans KR", size: 18 }, x: 0.5 },
-        xaxis: {
-          title: "날짜",
-          tickformat: "%Y-%m-%d",
-          tickangle: -45,
-          showgrid: true,
-          gridcolor: "#eee",
-          range: [start, end]
-        },
+        xaxis: { title: "날짜", tickformat: "%Y-%m-%d", tickangle: -45, showgrid: true, gridcolor: "#eee", range: [start, end] },
         yaxis: { title: "예약 수요량" },
         legend: { font: { family: "Noto Sans KR" } },
-        plot_bgcolor: "#fff",
-        paper_bgcolor: "#fff"
+        plot_bgcolor: "#fff", paper_bgcolor: "#fff"
       }, { responsive: true });
 
       document.getElementById("periodLabel").textContent =
