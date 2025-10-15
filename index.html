@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>호텔 수요 예측 시스템 | TEED LAB</title>
+  <meta charset="UTF-8">
+  <title>호텔 수요 예측 시스템</title>
   <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
+      margin: 0;
+      padding: 0;
       font-family: 'Jua', sans-serif;
       background: linear-gradient(135deg, #5b6ef5 0%, #6b48ff 100%);
-      color: white;
+      color: #fff;
       height: 100vh;
       display: flex;
       flex-direction: column;
+      align-items: center;
     }
 
     /* ✅ 상단 네비게이션 */
@@ -30,108 +31,104 @@
       left: 0;
       z-index: 10;
     }
-    nav .logo {
-      font-size: 20px;
+
+    .logo {
+      font-size: 22px;
       font-weight: bold;
     }
-    nav ul {
-      list-style: none;
+
+    .menu {
       display: flex;
       gap: 25px;
     }
-    nav ul li {
-      cursor: pointer;
-      transition: 0.3s;
+
+    .menu a {
+      color: #fff;
+      text-decoration: none;
       font-size: 15px;
+      transition: 0.3s;
     }
-    nav ul li:hover {
+
+    .menu a:hover {
       color: #b3c6ff;
       transform: translateY(-2px);
     }
 
-    /* ✅ 메인 콘텐츠 */
-    .main {
+    /* ✅ 중앙 메인 영역 */
+    main {
       flex: 1;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding: 120px 100px 60px;
-    }
-
-    .left {
-      max-width: 550px;
-      animation: fadeInUp 1.5s ease;
-    }
-
-    .left h2 {
-      font-size: 18px;
-      color: #dbeafe;
-      margin-bottom: 10px;
-    }
-
-    .left h1 {
-      font-size: 48px;
-      line-height: 1.3;
-      margin-bottom: 20px;
-    }
-
-    .left p {
-      font-size: 16px;
-      color: #e0e7ff;
-      line-height: 1.6;
-    }
-
-    .right {
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 20px;
-      padding: 40px 60px;
-      text-align: center;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-      animation: fadeIn 2s ease;
-    }
-
-    .right h3 {
-      font-size: 26px;
-      margin-bottom: 10px;
-    }
-
-    .right p {
-      font-size: 14px;
-      color: #dbeafe;
-      margin-bottom: 30px;
-    }
-
-    .buttons {
-      display: flex;
-      gap: 15px;
       justify-content: center;
+      text-align: center;
+      width: 100%;
     }
 
-    .btn {
-      font-family: 'Jua';
-      background: linear-gradient(90deg, #3b82f6, #6366f1);
+    .content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+      margin-top: 80px;
+      flex-wrap: wrap;
+    }
+
+    .text-block {
+      max-width: 600px;
+    }
+
+    h1 {
+      font-size: 56px;
+      margin-bottom: 15px;
+      line-height: 1.2;
+    }
+
+    p {
+      font-size: 18px;
+      color: #e0e7ff;
+      margin-bottom: 25px;
+    }
+
+    .box {
+      background: rgba(255, 255, 255, 0.15);
+      padding: 40px 50px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    .box:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: translateY(-5px);
+    }
+
+    .box h3 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    .box button {
+      margin-top: 15px;
+      padding: 10px 18px;
+      background: #2563eb;
       color: white;
       border: none;
-      border-radius: 10px;
-      padding: 12px 22px;
-      font-size: 15px;
+      border-radius: 8px;
       cursor: pointer;
-      transition: all 0.25s ease;
-      box-shadow: 0 4px 15px rgba(59,130,246,0.3);
+      font-family: 'Jua';
+      font-size: 16px;
+      transition: 0.3s;
     }
 
-    .btn:hover {
+    .box button:hover {
+      background: #1d4ed8;
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(99,102,241,0.4);
     }
 
-    .btn.secondary {
-      background: linear-gradient(90deg, #8b5cf6, #a855f7);
-    }
-
-    /* ✅ 하단 로고 바 */
+    /* ✅ 하단 로고 */
     footer {
-      background: rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.1);
       backdrop-filter: blur(10px);
       display: flex;
       justify-content: center;
@@ -140,69 +137,48 @@
       padding: 20px;
       height: 70px;
     }
+
     footer img {
       height: 35px;
-      opacity: 0.85;
+      opacity: 0.8;
       transition: 0.3s;
     }
+
     footer img:hover {
       opacity: 1;
       transform: scale(1.05);
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 
 <body>
-  <!-- ✅ 네비게이션 -->
   <nav>
-    <div class="logo">🏨 호텔 수요 예측 시스템</div>
-    <ul>
-      <li>Home</li>
-      <li>About</li>
-      <li>Services</li>
-      <li>Contact</li>
-      <li style="color:#93c5fd;">TEED LAB</li>
-    </ul>
+    <div class="logo">🏨 Sejong University</div>
+    <div class="menu">
+      <a href="#">Home</a>
+      <a href="#">About</a>
+      <a href="#">System</a>
+      <a href="#">Contact</a>
+    </div>
   </nav>
 
-  <!-- ✅ 메인 섹션 -->
-  <section class="main">
-    <div class="left">
-      <h2>세종대학교 TEED LAB</h2>
-      <h1>호텔 수요 예측 시스템</h1>
-      <p>
-        MASTe 기반 호텔별 객실 수요 예측 및 시각화 시스템으로, <br>
-        객실 수요 변동성과 가격 전략을 데이터 기반으로 분석하여 <br>
-        효율적 운영을 지원하는 AI 대시보드입니다.
-      </p>
-    </div>
+  <main>
+    <div class="content">
+      <div class="text-block">
+        <h1>호텔 수요 예측 시스템</h1>
+        <p>MASTe 기반 호텔별 객실 수요 예측 및 시각화 시스템입니다.<br>데이터 기반으로 호텔 운영 효율성을 극대화합니다.</p>
+      </div>
 
-    <div class="right">
-      <h3>AI 기반 수요 예측</h3>
-      <p>호텔별 실시간 수요 예측 및 성능 모니터링</p>
-      <div class="buttons">
-        <button class="btn" onclick="location.href='dashboard.html'">📊 대시보드 보기</button>
-        <button class="btn secondary" onclick="location.href='performance.html'">🧠 모델 성능 보기</button>
+      <div class="box">
+        <h3>📊 데이터 기반 평가 시스템</h3>
+        <button onclick="location.href='dashboard.html'">대시보드 바로가기</button>
       </div>
     </div>
-  </section>
+  </main>
 
-  <!-- ✅ 하단 로고 -->
   <footer>
     <img src="https://upload.wikimedia.org/wikipedia/commons/2/2d/Emblem_of_South_Korea.svg" alt="문체부">
-    <img src="https://www.gkl.co.kr/images/main/ci_logo.png" alt="GKL">
     <img src="https://upload.wikimedia.org/wikipedia/commons/5/55/Sejong_University_logo.svg" alt="세종대">
-    <img src="https://cdn-icons-png.flaticon.com/512/3039/3039387.png" alt="TEED LAB">
   </footer>
 </body>
 </html>
