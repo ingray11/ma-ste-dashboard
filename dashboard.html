@@ -113,7 +113,7 @@
       overflow: hidden;
     }
 
-    /* 🟦 카드 뚜껑 스타일 */
+    /* 🟦 카드 뚜껑 */
     .chart-header {
       background: #1e3478;
       color: white;
@@ -187,7 +187,7 @@
 
     <!-- 📊 그래프 카드 -->
     <div class="chart-box">
-      <div class="chart-header" id="chartHeader">그래프 제목</div>
+      <div class="chart-header">호텔 객실 수요량 예측 그래프</div>
       <div id="chart"></div>
     </div>
   </main>
@@ -282,7 +282,8 @@
       document.getElementById("dataCount").textContent = hotelData.length.toLocaleString();
       document.getElementById("dateRangeLabel").textContent =
         `${start.toISOString().split("T")[0]} ~ ${end.toISOString().split("T")[0]}`;
-      document.getElementById("chartHeader").textContent = hotelMap[hotel] || hotel;
+
+      const hotelName = hotelMap[hotel] || hotel;
 
       const trueTrace = {
         x: hotelData.map(d => d.date), y: hotelData.map(d => d.y_true),
@@ -294,8 +295,9 @@
       };
 
       const traces = view === "true" ? [trueTrace] : view === "pred" ? [predTrace] : [trueTrace, predTrace];
+
       Plotly.newPlot("chart", traces, {
-        title: { text: "", font: { family: "Noto Sans KR", size: 18 }, x: 0.5 },
+        title: { text: hotelName, font: { family: "Noto Sans KR", size: 18 }, x: 0.5 },
         xaxis: { title: "날짜", tickformat: "%Y-%m-%d", tickangle: -45, showgrid: true, gridcolor: "#eee", range: [start, end] },
         yaxis: { title: "예약 수요량" },
         legend: { font: { family: "Noto Sans KR" } },
