@@ -299,7 +299,7 @@
       Plotly.newPlot("chart", traces, {
         title: { text: hotelName, font: { family: "Noto Sans KR", size: 18 }, x: 0.5 },
         xaxis: { title: "날짜", tickformat: "%Y-%m-%d", tickangle: -45, showgrid: true, gridcolor: "#eee", range: [start, end] },
-        yaxis: { title: "예약 수요량" },
+        yaxis: { title: "예측된 호텔 객실 수요량" },
         legend: { font: { family: "Noto Sans KR" } },
         plot_bgcolor: "#fff", paper_bgcolor: "#fff"
       }, { responsive: true });
@@ -307,3 +307,4 @@
   </script>
 </body>
 </html>
+
