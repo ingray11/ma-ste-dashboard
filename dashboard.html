@@ -104,10 +104,32 @@
     .card h3 { color: #1e3a8a; font-size: 16px; margin-bottom: 8px; }
     .card p { color: #1e1e1e; font-size: 15px; margin: 0; font-weight: 600; }
 
+    .chart-wrapper {
+      background: white;
+      border-radius: 16px;
+      padding: 25px 15px 15px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      width: 100%;
+      position: relative;
+    }
+
+    .chart-title {
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1e3478;
+      color: white;
+      padding: 8px 20px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 16px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+    }
+
     #chart {
-      background: white; border-radius: 16px;
-      padding: 15px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-      width: 100%; height: 60vh;
+      width: 100%;
+      height: 60vh;
     }
 
     footer {
@@ -165,7 +187,10 @@
       <div class="card"><h3>기간</h3><p id="dateRangeLabel">-</p></div>
     </div>
 
-    <div id="chart"></div>
+    <div class="chart-wrapper">
+      <div id="chartTitle" class="chart-title">그래프 제목</div>
+      <div id="chart"></div>
+    </div>
   </main>
 
   <footer>
@@ -188,10 +213,8 @@
     window.onload = async function() {
       document.getElementById("startDate").value = "2023-01-01";
       document.getElementById("endDate").value = "2024-09-30";
-
       currentFile = "pred_28_1.csv";
       await loadData(currentFile);
-
       const hotels = [...new Set(currentData.map(d => d.hotel))];
       if (hotels.length > 0) {
         document.getElementById("hotelSelect").value = hotels[0];
@@ -253,10 +276,8 @@
       if (!currentData.length) return;
       const hotel = document.getElementById("hotelSelect").value;
       const view = document.getElementById("viewSelect").value;
-
       const start = new Date(document.getElementById("startDate").value || "2023-01-01");
       const end = new Date(document.getElementById("endDate").value || "2024-09-30");
-
       const hotelData = currentData.filter(d => d.hotel === hotel && d.date >= start && d.date <= end);
       if (!hotelData.length) return;
 
@@ -264,6 +285,7 @@
       document.getElementById("dataCount").textContent = hotelData.length.toLocaleString();
       document.getElementById("dateRangeLabel").textContent =
         `${start.toISOString().split("T")[0]} ~ ${end.toISOString().split("T")[0]}`;
+      document.getElementById("chartTitle").textContent = hotelMap[hotel] || hotel;
 
       const trueTrace = {
         x: hotelData.map(d => d.date), y: hotelData.map(d => d.y_true),
@@ -276,16 +298,12 @@
 
       const traces = view === "true" ? [trueTrace] : view === "pred" ? [predTrace] : [trueTrace, predTrace];
       Plotly.newPlot("chart", traces, {
-        title: { text: `${hotelMap[hotel] || hotel}`, font: { family: "Noto Sans KR", size: 18, color: "#fff" },
-                 x: 0.5, pad: {t: 10, b: 10}, bgcolor: "#1e3478" },
+        margin: { t: 30 },
         xaxis: { title: "날짜", tickformat: "%Y-%m-%d", tickangle: -45, showgrid: true, gridcolor: "#eee", range: [start, end] },
         yaxis: { title: "예약 수요량" },
         legend: { font: { family: "Noto Sans KR" } },
         plot_bgcolor: "#fff", paper_bgcolor: "#fff"
       }, { responsive: true });
-
-      document.getElementById("periodLabel").textContent =
-        `📆 현재 구간: ${start.toLocaleDateString()} ~ ${end.toLocaleDateString()}`;
     }
   </script>
 </body>
