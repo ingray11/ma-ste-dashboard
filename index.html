@@ -64,7 +64,6 @@
       background: rgba(255, 255, 255, 0.15);
     }
 
-    /* Contact 강조 */
     .menu a.active {
       background: #2563eb;
       color: #fff;
@@ -108,7 +107,6 @@
       line-height: 1.7;
     }
 
-    /* 오른쪽 버튼 박스 */
     .button-box {
       flex: 1;
       background: rgba(255, 255, 255, 0.12);
@@ -136,7 +134,6 @@
       font-weight: 600;
     }
 
-    /* 버튼 공통 */
     .btn {
       width: 85%;
       height: 70px;
@@ -154,7 +151,6 @@
       transform: translateY(-3px);
     }
 
-    /* 버튼 색상 */
     .btn-lightblue {
       background: #3b82f6;
     }
@@ -174,33 +170,50 @@
     /* 하단 */
     footer {
       width: 100%;
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(8px);
       text-align: center;
-      padding: 25px 0;
+      padding: 40px 0 25px;
       color: #f5f3ff;
+      margin-top: auto;
     }
 
     .footer-logos {
-      margin-bottom: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 90px;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
     }
 
-    footer img {
-      height: 35px;
-      margin: 0 25px;
+    .logo-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      text-align: center;
+    }
+
+    .logo-item img {
+      height: 55px;
+      width: auto;
+      object-fit: contain;
+      transition: 0.3s ease;
       opacity: 0.9;
-      transition: 0.3s;
-      vertical-align: middle;
     }
 
-    footer img:hover {
+    .logo-item img:hover {
       opacity: 1;
-      transform: scale(1.05);
+      transform: scale(1.08);
     }
 
-    footer p {
-      font-size: 14px;
+    .logo-item p {
+      font-size: 15px;
+      color: #f8f9ff;
       margin: 0;
+      font-weight: 500;
+      letter-spacing: 0.5px;
     }
 
     @keyframes fadeIn {
@@ -242,29 +255,21 @@
   </main>
 
   <footer>
-  <div class="footer-logos">
-    <div class="logo-item">
-      <img src="문체부-removebg-preview.png" alt="문화체육관광부 로고">
-      <p>문화체육관광부</p>
+    <div class="footer-logos">
+      <div class="logo-item">
+        <img src="문체부-removebg-review.png" alt="문화체육관광부 로고">
+        <p>문화체육관광부</p>
+      </div>
+      <div class="logo-item">
+        <img src="세종대.png" alt="세종대학교 로고">
+        <p>세종대학교</p>
+      </div>
+      <div class="logo-item">
+        <img src="이랜드-removebg-preview.png" alt="이랜드파크 로고">
+        <p>이랜드파크</p>
+      </div>
     </div>
-    <div class="logo-item">
-      <img src="세종대.png" alt="세종대학교 로고">
-      <p>세종대학교</p>
-    </div>
-    <div class="logo-item">
-      <img src="이랜드-removebg-preview.png" alt="이랜드파크 로고">
-      <p>이랜드파크</p>
-    </div>
-  </div>
-  <p>© 2025 세종대학교 — 가격효과 보정 기반 호텔 수요 예측 시스템</p>
-</footer>
-
-
+    <p>© 2025 세종대학교 — 가격효과 보정 기반 호텔 수요 예측 시스템</p>
+  </footer>
 </body>
 </html>
-
-
-
-
-
-
