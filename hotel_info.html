@@ -8,7 +8,6 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
   <style>
-    /* 💜 부드럽고 전면형 라벤더 그라데이션 */
     body {
       margin: 0;
       font-family: 'Noto Sans KR', sans-serif;
@@ -22,7 +21,6 @@
       min-height: 100vh;
     }
 
-    /* 🟦 상단바 */
     header {
       width: 100%;
       background: #1e3478;
@@ -54,7 +52,6 @@
     }
     .back-btn:hover { background: #cbd5e1; transform: translateY(-50%) scale(1.05); }
 
-    /* 💡 메인 박스는 중앙정렬 + 흰톤 유지 */
     main {
       width: 90%;
       max-width: 1200px;
@@ -93,6 +90,7 @@
       text-align: left;
     }
 
+    /* ✅ 지도 카드 꽉 채우기 */
     .map-container {
       flex: 1;
       min-width: 480px;
@@ -100,10 +98,13 @@
       border-radius: 12px;
       box-shadow: 0 3px 10px rgba(0,0,0,0.08);
       overflow: hidden;
+      display: flex;
+      flex-direction: column;
     }
 
     #map {
-      height: 420px;
+      flex: 1;
+      height: auto;
       border-radius: 0 0 12px 12px;
     }
 
@@ -129,9 +130,10 @@
 
     .info-body h2 { color: #1e3a8a; margin-top: 0; margin-bottom: 10px; }
 
+    /* ✅ 호텔 사진 크기 확장 */
     .hotel-img {
       width: 100%;
-      height: 200px;
+      height: 320px;
       object-fit: cover;
       border-bottom: 1px solid #eee;
     }
@@ -168,10 +170,9 @@
       <div class="info-container">
         <div class="info-card">
           <div class="section-title">호텔 기본 정보</div>
-          <img id="hotelImg" class="hotel-img" src="https://via.placeholder.com/400x200?text=Hotel+Image" alt="호텔 이미지">
+          <img id="hotelImg" class="hotel-img" src="https://via.placeholder.com/400x300?text=Hotel+Image" alt="호텔 이미지">
           <div class="info-body" id="hotelBasic">
             <h2>호텔을 선택하세요</h2>
-            <p>호텔을 선택하면 이름과 대표 이미지가 표시됩니다.</p>
           </div>
         </div>
 
@@ -209,7 +210,6 @@
         "RKT08": { name: "켄싱턴리조트 가평", lat: 37.8227, lon: 127.5098, img: "켄싱턴리조트_가평.png" }
       };
 
-
       const map = L.map('map').setView([36.5, 127.9], 7);
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; OpenStreetMap contributors'
@@ -239,20 +239,10 @@
 
       function showHotelInfo(code) {
         const h = hotels[code];
-      
-        // ✅ 이 한 줄 추가
-        document.getElementById("hotelImg").src = h.img || "https://via.placeholder.com/400x200?text=Hotel+Image";
-      
-        document.getElementById("hotelBasic").innerHTML = `
-          <h2>${h.name}</h2>
-          <p><b>호텔 코드:</b> ${code}</p>
-          <p><b>위도:</b> ${h.lat.toFixed(4)}, <b>경도:</b> ${h.lon.toFixed(4)}</p>
-        `;
-        document.getElementById("hotelDesc").innerHTML = `
-          <p><b>${h.name}</b>은(는) 주요 관광지 인근에 위치하여 다양한 편의시설을 제공합니다.</p>
-        `;
-}
-
+        document.getElementById("hotelImg").src = h.img || "https://via.placeholder.com/400x300?text=Hotel+Image";
+        document.getElementById("hotelBasic").innerHTML = `<h2>${h.name}</h2>`;
+        document.getElementById("hotelDesc").innerHTML = `<p><b>${h.name}</b>은(는) 주요 관광지 인근에 위치하여 다양한 편의시설을 제공합니다.</p>`;
+      }
     });
   </script>
 </body>
