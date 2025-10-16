@@ -15,6 +15,7 @@
       color: #1e1e1e;
     }
 
+    /* 상단 헤더 */
     header {
       background: #1e3478;
       color: white;
@@ -24,67 +25,162 @@
       box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
     }
 
-    header h1 { margin: 0; font-size: 28px; font-weight: 700; }
-    header p { margin-top: 6px; font-size: 14px; color: #dbeafe; }
-
-    .back-btn {
-      position: absolute; left: 40px; top: 50%; transform: translateY(-50%);
-      background: #e2e8f0; color: #1e293b;
-      border: none; border-radius: 8px;
-      padding: 8px 16px; font-size: 14px;
-      cursor: pointer; transition: 0.2s;
+    header h1 {
+      margin: 0;
+      font-size: 28px;
+      font-weight: 700;
     }
-    .back-btn:hover { background: #cbd5e1; transform: translateY(-50%) scale(1.05); }
 
+    header p {
+      margin-top: 6px;
+      font-size: 14px;
+      color: #dbeafe;
+    }
+
+    /* ← 메인으로 버튼 */
+    .back-btn {
+      position: absolute;
+      left: 40px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #e2e8f0;
+      color: #1e293b;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .back-btn:hover {
+      background: #cbd5e1;
+      transform: translateY(-50%) scale(1.05);
+    }
+
+    /* 메인 전체 레이아웃 */
     main {
       width: 90%;
-      max-width: 1100px;
+      max-width: 1200px;
       background: #f8f9ff;
       margin: 40px auto 60px;
       border-radius: 20px;
       box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
       padding: 40px;
+    }
+
+    .top-select {
       text-align: center;
+      margin-bottom: 25px;
     }
 
-    #map {
-      width: 100%;
-      height: 500px;
-      border-radius: 12px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      margin-bottom: 30px;
+    select {
+      font-family: 'Noto Sans KR';
+      font-size: 15px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid #cbd5e1;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      cursor: pointer;
     }
 
-    .info-card {
-      background: white;
-      border-radius: 12px;
-      padding: 20px 30px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    /* 메인 콘텐츠: 지도 + 정보 2분할 */
+    .content {
+      display: flex;
+      justify-content: space-between;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    /* 섹션 공통 타이틀 (뚜껑형) */
+    .section-title {
+      background: #1e3478;
+      color: white;
+      font-weight: 600;
+      font-size: 16px;
+      padding: 10px 20px;
+      border-radius: 12px 12px 0 0;
       text-align: left;
     }
 
-    .info-card h2 { color: #1e3a8a; margin-top: 0; }
-    .info-card p { margin: 6px 0; font-size: 15px; }
+    /* 지도 */
+    .map-container {
+      flex: 1;
+      min-width: 480px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    }
+
+    #map {
+      height: 420px;
+      border-radius: 0 0 12px 12px;
+    }
+
+    /* 호텔 정보 */
+    .info-container {
+      flex: 1;
+      min-width: 420px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .info-body {
+      padding: 20px 30px;
+      text-align: left;
+    }
+
+    .info-body h2 {
+      color: #1e3a8a;
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    .info-body p {
+      margin: 8px 0;
+      color: #374151;
+      font-size: 15px;
+    }
   </style>
 </head>
+
 <body>
   <header>
     <button class="back-btn" onclick="location.href='index.html'">← 메인으로</button>
     <h1>🏨 호텔 정보 대시보드</h1>
-    <p>MASTe 기반 주요 호텔 위치 시각화</p>
+    <p>MASTe 기반 주요 호텔 위치 및 세부 정보</p>
   </header>
 
   <main>
-    <div id="map"></div>
+    <!-- 호텔 선택 -->
+    <div class="top-select">
+      <select id="hotelSelect"></select>
+    </div>
 
-    <div class="info-card" id="hotelInfo">
-      <h2>호텔 정보</h2>
-      <p>지도에서 마커를 클릭하면 호텔 정보가 여기에 표시됩니다.</p>
+    <!-- 지도 + 정보 2분할 -->
+    <div class="content">
+      <!-- 지도 섹션 -->
+      <div class="map-container">
+        <div class="section-title">호텔 위치 지도</div>
+        <div id="map"></div>
+      </div>
+
+      <!-- 정보 섹션 -->
+      <div class="info-container">
+        <div class="section-title">호텔 세부 정보</div>
+        <div class="info-body" id="hotelInfo">
+          <h2>호텔을 선택하세요</h2>
+          <p>지도나 상단 선택창에서 호텔을 선택하면 상세 정보가 표시됩니다.</p>
+        </div>
+      </div>
     </div>
   </main>
 
   <script>
-    // 호텔 코드와 위도·경도 데이터
+    // 호텔 코드별 위도·경도 및 이름
     const hotels = {
       "HFL01": { name: "켄싱턴호텔 평창", lat: 37.6341, lon: 128.6796 },
       "HGA01": { name: "켄트호텔 광안리", lat: 35.1531, lon: 129.1183 },
@@ -105,24 +201,46 @@
 
     // 지도 초기화
     const map = L.map('map').setView([36.5, 127.9], 7);
-
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
 
-    // 마커 표시
+    // 드롭다운 구성
+    const select = document.getElementById('hotelSelect');
+    select.innerHTML = Object.entries(hotels)
+      .map(([code, h]) => `<option value="${code}">${h.name}</option>`)
+      .join('');
+
+    let markers = {};
+
+    // 마커 생성
     for (const [code, info] of Object.entries(hotels)) {
-      const marker = L.marker([info.lat, info.lon]).addTo(map)
+      const marker = L.marker([info.lat, info.lon])
+        .addTo(map)
         .bindPopup(`<b>${info.name}</b>`)
-        .on('click', () => {
-          document.getElementById("hotelInfo").innerHTML = `
-            <h2>${info.name}</h2>
-            <p><b>호텔 코드:</b> ${code}</p>
-            <p><b>위도:</b> ${info.lat.toFixed(4)}</p>
-            <p><b>경도:</b> ${info.lon.toFixed(4)}</p>
-            <p><b>상세정보:</b> 여기에 설명 추가 가능</p>
-          `;
-        });
+        .on('click', () => showHotelInfo(code));
+      markers[code] = marker;
+    }
+
+    // 드롭다운 이벤트
+    select.addEventListener('change', (e) => {
+      const code = e.target.value;
+      showHotelInfo(code);
+      const h = hotels[code];
+      map.setView([h.lat, h.lon], 11);
+      markers[code].openPopup();
+    });
+
+    // 정보 표시
+    function showHotelInfo(code) {
+      const h = hotels[code];
+      document.getElementById('hotelInfo').innerHTML = `
+        <h2>${h.name}</h2>
+        <p><b>호텔 코드:</b> ${code}</p>
+        <p><b>위도:</b> ${h.lat.toFixed(4)}</p>
+        <p><b>경도:</b> ${h.lon.toFixed(4)}</p>
+        <p><b>세부 설명:</b> 여기에 직접 작성 가능</p>
+      `;
     }
   </script>
 </body>
