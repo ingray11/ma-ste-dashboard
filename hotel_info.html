@@ -1,246 +1,50 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <title>호텔 정보 대시보드</title>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<style>
+  body {
+    margin: 0;
+    font-family: 'Noto Sans KR', sans-serif;
+    /* ✅ dashboard.html과 동일한 배경 그라데이션 */
+    background: linear-gradient(135deg, #b8a8ff 0%, #a084ff 50%, #8c7aff 100%);
+    color: #1e1e1e;
+  }
 
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Noto Sans KR', sans-serif;
-      background: linear-gradient(135deg, #b8a8ff 0%, #a084ff 50%, #8c7aff 100%);
-      color: #1e1e1e;
-    }
+  header {
+    background: #1e3478;
+    color: white;
+    text-align: center;
+    padding: 25px 0;
+    position: relative;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+  }
 
-    /* 상단 헤더 */
-    header {
-      background: #1e3478;
-      color: white;
-      text-align: center;
-      padding: 25px 0;
-      position: relative;
-      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
-    }
+  header h1 { margin: 0; font-size: 28px; font-weight: 700; }
+  header p { margin-top: 6px; font-size: 14px; color: #dbeafe; }
 
-    header h1 { margin: 0; font-size: 28px; font-weight: 700; }
-    header p { margin-top: 6px; font-size: 14px; color: #dbeafe; }
+  /* ✅ main을 반투명 흰색으로 조정 */
+  main {
+    width: 90%;
+    max-width: 1200px;
+    background: rgba(248, 249, 255, 0.9); /* 약간 투명하게 */
+    margin: 40px auto 60px;
+    border-radius: 20px;
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+    padding: 40px;
+  }
 
-    .back-btn {
-      position: absolute;
-      left: 40px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: #e2e8f0;
-      color: #1e293b;
-      border: none;
-      border-radius: 8px;
-      padding: 8px 16px;
-      font-size: 14px;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    .back-btn:hover { background: #cbd5e1; transform: translateY(-50%) scale(1.05); }
+  /* ✅ 카드들도 전체 톤 강화 */
+  .info-card, .map-container {
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+  }
 
-    /* 메인 전체 레이아웃 */
-    main {
-      width: 90%;
-      max-width: 1200px;
-      background: #f8f9ff;
-      margin: 40px auto 60px;
-      border-radius: 20px;
-      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
-      padding: 40px;
-    }
-
-    .top-select {
-      text-align: center;
-      margin-bottom: 25px;
-    }
-
-    select {
-      font-family: 'Noto Sans KR';
-      font-size: 15px;
-      padding: 10px 14px;
-      border-radius: 10px;
-      border: 1px solid #cbd5e1;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      cursor: pointer;
-    }
-
-    /* 메인 콘텐츠: 지도 + 정보 2분할 */
-    .content {
-      display: flex;
-      justify-content: space-between;
-      gap: 30px;
-      flex-wrap: wrap;
-    }
-
-    /* 섹션 공통 타이틀 (뚜껑형) */
-    .section-title {
-      background: #1e3478;
-      color: white;
-      font-weight: 600;
-      font-size: 16px;
-      padding: 10px 20px;
-      border-radius: 12px 12px 0 0;
-      text-align: left;
-    }
-
-    /* 지도 */
-    .map-container {
-      flex: 1;
-      min-width: 480px;
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-    }
-
-    #map {
-      height: 420px;
-      border-radius: 0 0 12px 12px;
-    }
-
-    /* 오른쪽 정보 컨테이너 */
-    .info-container {
-      flex: 1;
-      min-width: 420px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    .info-card {
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-      overflow: hidden;
-    }
-
-    .info-body {
-      padding: 20px 25px;
-      text-align: left;
-    }
-
-    .info-body h2 {
-      color: #1e3a8a;
-      margin-top: 0;
-      margin-bottom: 10px;
-    }
-
-    .info-body p {
-      margin: 6px 0;
-      color: #374151;
-      font-size: 15px;
-    }
-
-    .hotel-img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      border-bottom: 1px solid #eee;
-    }
-
-  </style>
-</head>
-
-<body>
-  <header>
-    <button class="back-btn" onclick="location.href='index.html'">← 메인으로</button>
-    <h1>🏨 호텔 정보 대시보드</h1>
-    <p>MASTe 기반 주요 호텔 위치 및 세부 정보</p>
-  </header>
-
-  <main>
-    <!-- 호텔 선택 -->
-    <div class="top-select">
-      <select id="hotelSelect"></select>
-    </div>
-
-    <!-- 지도 + 정보 2분할 -->
-    <div class="content">
-      <!-- 지도 섹션 -->
-      <div class="map-container">
-        <div class="section-title">호텔 위치 지도</div>
-        <div id="map"></div>
-      </div>
-
-      <!-- 정보 섹션 -->
-      <div class="info-container">
-        <!-- 호텔 기본정보 -->
-        <div class="info-card" id="info-top">
-          <div class="section-title">호텔 기본 정보</div>
-          <img id="hotelImg" class="hotel-img" src="https://via.placeholder.com/400x200?text=Hotel+Image" alt="호텔 이미지">
-          <div class="info-body" id="hotelBasic">
-            <h2>호텔을 선택하세요</h2>
-            <p>호텔을 선택하면 이름과 대표 이미지가 표시됩니다.</p>
-          </div>
-        </div>
-
-        <!-- 호텔 설명 -->
-        <div class="info-card" id="info-desc">
-          <div class="section-title">호텔 설명</div>
-          <div class="info-body" id="hotelDesc">
-            <p>호텔 설명이 여기에 표시됩니다.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </main>
-
-  <script>
-    const hotels = {
-      "HFL01": { name: "켄싱턴호텔 평창", lat: 37.6341, lon: 128.6796, img: "https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&id=13a1b64b-0b68-4b90-9c36-9877c3c530f3&type=thumb" },
-      "HGA01": { name: "켄트호텔 광안리", lat: 35.1531, lon: 129.1183, img: "https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&id=ddc546ad-f1b3-4cd2-85b2-d2c8a3226b35&type=thumb" },
-      "HLX01": { name: "켄싱턴호텔 여의도", lat: 37.5208, lon: 126.9274, img: "https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&id=c8e9cb46-5320-4a2d-bfd5-5f0d569fa49a&type=thumb" },
-      "HNY01": { name: "남원예촌", lat: 35.4064, lon: 127.3850, img: "https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&id=f7a1a7f2-8e62-4b7e-b0e4-0d6a2a441e34&type=thumb" },
-      "HST01": { name: "켄싱턴호텔 설악", lat: 38.1750, lon: 128.5196, img: "https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&id=ef934d12-6b64-4786-8d84-0b07db22cc8e&type=thumb" },
-      "RKT08": { name: "켄싱턴리조트 가평", lat: 37.8227, lon: 127.5098, img: "https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&id=0dff9a7e-2c1c-4d2c-8014-ffef31d6e8f2&type=thumb" }
-    };
-
-    const map = L.map('map').setView([36.5, 127.9], 7);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(map);
-
-    const select = document.getElementById('hotelSelect');
-    select.innerHTML = Object.entries(hotels)
-      .map(([code, h]) => `<option value="${code}">${h.name}</option>`)
-      .join('');
-
-    let markers = {};
-
-    for (const [code, h] of Object.entries(hotels)) {
-      const marker = L.marker([h.lat, h.lon])
-        .addTo(map)
-        .bindPopup(`<b>${h.name}</b>`)
-        .on('click', () => showHotelInfo(code));
-      markers[code] = marker;
-    }
-
-    select.addEventListener('change', (e) => {
-      const code = e.target.value;
-      showHotelInfo(code);
-      const h = hotels[code];
-      map.setView([h.lat, h.lon], 11);
-      markers[code].openPopup();
-    });
-
-    function showHotelInfo(code) {
-      const h = hotels[code];
-      document.getElementById("hotelBasic").innerHTML = `
-        <h2>${h.name}</h2>
-        <p><b>호텔 코드:</b> ${code}</p>
-        <p><b>위치:</b> 위도 ${h.lat.toFixed(4)}, 경도 ${h.lon.toFixed(4)}</p>
-      `;
-      document.getElementById("hotelImg").src = h.img;
-      document.getElementById("hotelDesc").innerHTML = `
-        <p><b>${h.name}</b>은(는) 아름다운 자연 경관과 수준 높은 서비스로 고객 만족도를 자랑합니다.<br>
-        위치 특성에 따라 다양한 관광명소와의 접근성이 우수하며, 휴양 및 비즈니스 목적 모두에 적합합니다.</p>
-      `;
-    }
-  </script>
-</body>
-</html>
+  /* ✅ 카드 뚜껑 네이비 그대로 유지 */
+  .section-title {
+    background: #1e3478;
+    color: white;
+    font-weight: 600;
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 12px 12px 0 0;
+    text-align: left;
+  }
+</style>
