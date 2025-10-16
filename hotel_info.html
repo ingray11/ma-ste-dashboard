@@ -8,27 +8,32 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
   <style>
+    /* 💜 부드럽고 전면형 라벤더 그라데이션 */
     body {
       margin: 0;
       font-family: 'Noto Sans KR', sans-serif;
-      /* ✅ 바탕 그라데이션을 ‘전역’에 깔고 화면 끝까지 이어지게 */
-      background: radial-gradient(circle at top left, #c5b8ff 0%, #a48cff 50%, #8566ff 100%);
-      background-attachment: fixed; /* ✅ 스크롤 시에도 끊기지 않게 고정 */
+      background: radial-gradient(circle at 30% 10%, #c5b8ff 0%, #a48cff 50%, #7c66ff 100%);
+      background-attachment: fixed;
       background-size: cover;
-      min-height: 100vh;
       color: #1e1e1e;
-    }
-    
-    main {
-      width: 90%;
-      max-width: 1200px;
-      background: rgba(255, 255, 255, 0.9); /* ✅ 카드 내부는 흰톤 그대로 */
-      margin: 40px auto 80px;
-      border-radius: 20px;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
     }
 
+    /* 🟦 상단바 */
+    header {
+      width: 100%;
+      background: #1e3478;
+      color: white;
+      text-align: center;
+      padding: 25px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+    }
 
     header h1 { margin: 0; font-size: 28px; font-weight: 700; }
     header p { margin-top: 6px; font-size: 14px; color: #dbeafe; }
@@ -49,14 +54,14 @@
     }
     .back-btn:hover { background: #cbd5e1; transform: translateY(-50%) scale(1.05); }
 
+    /* 💡 메인 박스는 중앙정렬 + 흰톤 유지 */
     main {
       width: 90%;
       max-width: 1200px;
-      /* ✅ 완전 투명으로 변경 — 배경색이 자연스럽게 이어짐 */
-      background: transparent;
+      background: rgba(255,255,255,0.95);
       margin: 40px auto 60px;
       border-radius: 20px;
-      box-shadow: none;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
       padding: 40px;
     }
 
@@ -111,7 +116,7 @@
     }
 
     .info-card {
-      background: rgba(255,255,255,0.9);
+      background: rgba(255,255,255,0.95);
       border-radius: 12px;
       box-shadow: 0 3px 10px rgba(0,0,0,0.08);
       overflow: hidden;
@@ -129,6 +134,15 @@
       height: 200px;
       object-fit: cover;
       border-bottom: 1px solid #eee;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px 0;
+      color: #f5f3ff;
+      background: rgba(30, 52, 120, 0.9);
+      width: 100%;
+      font-size: 14px;
     }
   </style>
 </head>
@@ -170,6 +184,10 @@
       </div>
     </div>
   </main>
+
+  <footer>
+    © 2025 세종대학교 — 호텔 수요 예측 시스템
+  </footer>
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
