@@ -90,7 +90,6 @@
       text-align: left;
     }
 
-    /* ✅ 지도 카드 꽉 채우기 */
     .map-container {
       flex: 1;
       min-width: 480px;
@@ -104,7 +103,7 @@
 
     #map {
       flex: 1;
-      height: auto;
+      height: 450px;
       border-radius: 0 0 12px 12px;
     }
 
@@ -128,9 +127,14 @@
       text-align: left;
     }
 
-    .info-body h2 { color: #1e3a8a; margin-top: 0; margin-bottom: 10px; }
+    .info-body h2 {
+      color: #1e3a8a;
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 22px;
+      font-weight: 700;
+    }
 
-    /* ✅ 호텔 사진 크기 확장 */
     .hotel-img {
       width: 100%;
       height: 320px;
@@ -172,7 +176,8 @@
           <div class="section-title">호텔 기본 정보</div>
           <img id="hotelImg" class="hotel-img" src="https://via.placeholder.com/400x300?text=Hotel+Image" alt="호텔 이미지">
           <div class="info-body" id="hotelBasic">
-            <h2>호텔을 선택하세요</h2>
+            <h2>호텔 정보를 보고 싶다면 위에서 호텔을 선택해주세요.</h2>
+            <p>선택 시 해당 호텔의 대표 이미지와 설명이 표시됩니다.</p>
           </div>
         </div>
 
@@ -199,7 +204,7 @@
         "HNY01": { name: "남원예촌", lat: 35.4135, lon: 127.3855, img: "남원예촌.jpg" },
         "HST01": { name: "켄싱턴호텔 설악", lat: 38.1803, lon: 128.4938, img: "켄싱턴호텔_설악.jpg" },
         "RHK01": { name: "켄싱턴리조트 제주중문", lat: 33.2506, lon: 126.4142, img: "켄싱턴리조트_제주중문.jpg" },
-        "RHK12": { name: "켄싱턴리조트 지리산남원", lat: 35.3415, lon: 127.5314, img: "켄싱턴리조트_지리산남원.jpg" },
+        "RHK12": { name: "켄싱턴리조트 지리산남원", lat: 35.3415, lon: 127.5314, img: "켄싱턴호텔_지리산남원.jpg" },
         "RJR01": { name: "켄싱턴리조트 지리산하동", lat: 35.1623, lon: 127.7309, img: "켄싱턴리조트_지리산하동.jpg" },
         "RKT01": { name: "켄싱턴리조트 설악비치", lat: 38.2263, lon: 128.5919, img: "켄싱턴리조트_설악비치.jpg" },
         "RKT02": { name: "켄싱턴리조트 경주", lat: 35.8096, lon: 129.2406, img: "켄싱턴리조트_경주.jpg" },
@@ -216,9 +221,8 @@
       }).addTo(map);
 
       const select = document.getElementById('hotelSelect');
-      select.innerHTML = Object.entries(hotels)
-        .map(([code, h]) => `<option value="${code}">${h.name}</option>`)
-        .join('');
+      select.innerHTML = `<option value="">호텔을 선택하세요</option>` + 
+        Object.entries(hotels).map(([code, h]) => `<option value="${code}">${h.name}</option>`).join('');
 
       const markers = {};
       for (const [code, h] of Object.entries(hotels)) {
@@ -231,6 +235,7 @@
 
       select.addEventListener('change', (e) => {
         const code = e.target.value;
+        if (!code) return;
         showHotelInfo(code);
         const h = hotels[code];
         map.setView([h.lat, h.lon], 11);
