@@ -25,19 +25,9 @@
       box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
     }
 
-    header h1 {
-      margin: 0;
-      font-size: 28px;
-      font-weight: 700;
-    }
+    header h1 { margin: 0; font-size: 28px; font-weight: 700; }
+    header p { margin-top: 6px; font-size: 14px; color: #dbeafe; }
 
-    header p {
-      margin-top: 6px;
-      font-size: 14px;
-      color: #dbeafe;
-    }
-
-    /* ← 메인으로 버튼 */
     .back-btn {
       position: absolute;
       left: 40px;
@@ -52,11 +42,7 @@
       cursor: pointer;
       transition: 0.2s;
     }
-
-    .back-btn:hover {
-      background: #cbd5e1;
-      transform: translateY(-50%) scale(1.05);
-    }
+    .back-btn:hover { background: #cbd5e1; transform: translateY(-50%) scale(1.05); }
 
     /* 메인 전체 레이아웃 */
     main {
@@ -117,19 +103,24 @@
       border-radius: 0 0 12px 12px;
     }
 
-    /* 호텔 정보 */
+    /* 오른쪽 정보 컨테이너 */
     .info-container {
       flex: 1;
       min-width: 420px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .info-card {
       background: white;
       border-radius: 12px;
       box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-      display: flex;
-      flex-direction: column;
+      overflow: hidden;
     }
 
     .info-body {
-      padding: 20px 30px;
+      padding: 20px 25px;
       text-align: left;
     }
 
@@ -140,10 +131,18 @@
     }
 
     .info-body p {
-      margin: 8px 0;
+      margin: 6px 0;
       color: #374151;
       font-size: 15px;
     }
+
+    .hotel-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-bottom: 1px solid #eee;
+    }
+
   </style>
 </head>
 
@@ -170,42 +169,42 @@
 
       <!-- 정보 섹션 -->
       <div class="info-container">
-        <div class="section-title">호텔 세부 정보</div>
-        <div class="info-body" id="hotelInfo">
-          <h2>호텔을 선택하세요</h2>
-          <p>지도나 상단 선택창에서 호텔을 선택하면 상세 정보가 표시됩니다.</p>
+        <!-- 호텔 기본정보 -->
+        <div class="info-card" id="info-top">
+          <div class="section-title">호텔 기본 정보</div>
+          <img id="hotelImg" class="hotel-img" src="https://via.placeholder.com/400x200?text=Hotel+Image" alt="호텔 이미지">
+          <div class="info-body" id="hotelBasic">
+            <h2>호텔을 선택하세요</h2>
+            <p>호텔을 선택하면 이름과 대표 이미지가 표시됩니다.</p>
+          </div>
+        </div>
+
+        <!-- 호텔 설명 -->
+        <div class="info-card" id="info-desc">
+          <div class="section-title">호텔 설명</div>
+          <div class="info-body" id="hotelDesc">
+            <p>호텔 설명이 여기에 표시됩니다.</p>
+          </div>
         </div>
       </div>
     </div>
   </main>
 
   <script>
-    // 호텔 코드별 위도·경도 및 이름
     const hotels = {
-      "HFL01": { name: "켄싱턴호텔 평창", lat: 37.6341, lon: 128.6796 },
-      "HGA01": { name: "켄트호텔 광안리", lat: 35.1531, lon: 129.1183 },
-      "HLX01": { name: "켄싱턴호텔 여의도", lat: 37.5208, lon: 126.9274 },
-      "HNY01": { name: "남원예촌", lat: 35.4064, lon: 127.3850 },
-      "HST01": { name: "켄싱턴호텔 설악", lat: 38.1750, lon: 128.5196 },
-      "RHK01": { name: "켄싱턴리조트 제주중문", lat: 33.2481, lon: 126.4085 },
-      "RHK12": { name: "켄싱턴리조트 지리산남원", lat: 35.3720, lon: 127.4693 },
-      "RJR01": { name: "켄싱턴리조트 지리산하동", lat: 35.1956, lon: 127.7562 },
-      "RKT01": { name: "켄싱턴리조트 설악비치", lat: 38.2086, lon: 128.5941 },
-      "RKT02": { name: "켄싱턴리조트 경주", lat: 35.8392, lon: 129.2240 },
-      "RKT03": { name: "켄싱턴리조트 충주", lat: 37.0190, lon: 127.9255 },
-      "RKT04": { name: "켄싱턴리조트 제주한림", lat: 33.3930, lon: 126.2394 },
-      "RKT05": { name: "켄싱턴리조트 설악밸리2", lat: 38.2010, lon: 128.5630 },
-      "RKT07": { name: "켄싱턴리조트 서귀포", lat: 33.2545, lon: 126.5638 },
-      "RKT08": { name: "켄싱턴리조트 가평", lat: 37.8227, lon: 127.5098 }
+      "HFL01": { name: "켄싱턴호텔 평창", lat: 37.6341, lon: 128.6796, img: "https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&id=13a1b64b-0b68-4b90-9c36-9877c3c530f3&type=thumb" },
+      "HGA01": { name: "켄트호텔 광안리", lat: 35.1531, lon: 129.1183, img: "https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&id=ddc546ad-f1b3-4cd2-85b2-d2c8a3226b35&type=thumb" },
+      "HLX01": { name: "켄싱턴호텔 여의도", lat: 37.5208, lon: 126.9274, img: "https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&id=c8e9cb46-5320-4a2d-bfd5-5f0d569fa49a&type=thumb" },
+      "HNY01": { name: "남원예촌", lat: 35.4064, lon: 127.3850, img: "https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&id=f7a1a7f2-8e62-4b7e-b0e4-0d6a2a441e34&type=thumb" },
+      "HST01": { name: "켄싱턴호텔 설악", lat: 38.1750, lon: 128.5196, img: "https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&id=ef934d12-6b64-4786-8d84-0b07db22cc8e&type=thumb" },
+      "RKT08": { name: "켄싱턴리조트 가평", lat: 37.8227, lon: 127.5098, img: "https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&id=0dff9a7e-2c1c-4d2c-8014-ffef31d6e8f2&type=thumb" }
     };
 
-    // 지도 초기화
     const map = L.map('map').setView([36.5, 127.9], 7);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
 
-    // 드롭다운 구성
     const select = document.getElementById('hotelSelect');
     select.innerHTML = Object.entries(hotels)
       .map(([code, h]) => `<option value="${code}">${h.name}</option>`)
@@ -213,16 +212,14 @@
 
     let markers = {};
 
-    // 마커 생성
-    for (const [code, info] of Object.entries(hotels)) {
-      const marker = L.marker([info.lat, info.lon])
+    for (const [code, h] of Object.entries(hotels)) {
+      const marker = L.marker([h.lat, h.lon])
         .addTo(map)
-        .bindPopup(`<b>${info.name}</b>`)
+        .bindPopup(`<b>${h.name}</b>`)
         .on('click', () => showHotelInfo(code));
       markers[code] = marker;
     }
 
-    // 드롭다운 이벤트
     select.addEventListener('change', (e) => {
       const code = e.target.value;
       showHotelInfo(code);
@@ -231,15 +228,17 @@
       markers[code].openPopup();
     });
 
-    // 정보 표시
     function showHotelInfo(code) {
       const h = hotels[code];
-      document.getElementById('hotelInfo').innerHTML = `
+      document.getElementById("hotelBasic").innerHTML = `
         <h2>${h.name}</h2>
         <p><b>호텔 코드:</b> ${code}</p>
-        <p><b>위도:</b> ${h.lat.toFixed(4)}</p>
-        <p><b>경도:</b> ${h.lon.toFixed(4)}</p>
-        <p><b>세부 설명:</b> 여기에 직접 작성 가능</p>
+        <p><b>위치:</b> 위도 ${h.lat.toFixed(4)}, 경도 ${h.lon.toFixed(4)}</p>
+      `;
+      document.getElementById("hotelImg").src = h.img;
+      document.getElementById("hotelDesc").innerHTML = `
+        <p><b>${h.name}</b>은(는) 아름다운 자연 경관과 수준 높은 서비스로 고객 만족도를 자랑합니다.<br>
+        위치 특성에 따라 다양한 관광명소와의 접근성이 우수하며, 휴양 및 비즈니스 목적 모두에 적합합니다.</p>
       `;
     }
   </script>
