@@ -11,18 +11,24 @@
     body {
       margin: 0;
       font-family: 'Noto Sans KR', sans-serif;
-      background: linear-gradient(135deg, #b8a8ff 0%, #a084ff 50%, #8c7aff 100%);
+      /* ✅ 바탕 그라데이션을 ‘전역’에 깔고 화면 끝까지 이어지게 */
+      background: radial-gradient(circle at top left, #c5b8ff 0%, #a48cff 50%, #8566ff 100%);
+      background-attachment: fixed; /* ✅ 스크롤 시에도 끊기지 않게 고정 */
+      background-size: cover;
+      min-height: 100vh;
       color: #1e1e1e;
     }
-
-    header {
-      background: #1e3478;
-      color: white;
-      text-align: center;
-      padding: 25px 0;
-      position: relative;
-      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+    
+    main {
+      width: 90%;
+      max-width: 1200px;
+      background: rgba(255, 255, 255, 0.9); /* ✅ 카드 내부는 흰톤 그대로 */
+      margin: 40px auto 80px;
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      padding: 40px;
     }
+
 
     header h1 { margin: 0; font-size: 28px; font-weight: 700; }
     header p { margin-top: 6px; font-size: 14px; color: #dbeafe; }
