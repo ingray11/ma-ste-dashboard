@@ -197,23 +197,7 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      const hotels = {
-        "HFL01": { name: "켄싱턴호텔 평창", lat: 37.6341, lon: 128.6796, img: "켄싱턴호텔_평창.jpg" },
-        "HGA01": { name: "켄트호텔 광안리", lat: 35.1532, lon: 129.1187, img: "켄트호텔_광안리.png" },
-        "HLX01": { name: "켄싱턴호텔 여의도", lat: 37.5233, lon: 126.9241, img: "켄싱턴호텔_여의도.jpg" },
-        "HNY01": { name: "남원예촌", lat: 35.4135, lon: 127.3855, img: "남원예촌.jpg" },
-        "HST01": { name: "켄싱턴호텔 설악", lat: 38.1803, lon: 128.4938, img: "켄싱턴호텔_설악.jpg" },
-        "RHK01": { name: "켄싱턴리조트 제주중문", lat: 33.2506, lon: 126.4142, img: "켄싱턴리조트_제주중문.jpg" },
-        "RHK12": { name: "켄싱턴리조트 지리산남원", lat: 35.3415, lon: 127.5314, img: "켄싱턴호텔_지리산남원.jpg" },
-        "RJR01": { name: "켄싱턴리조트 지리산하동", lat: 35.1623, lon: 127.7309, img: "켄싱턴리조트_지리산하동.jpg" },
-        "RKT01": { name: "켄싱턴리조트 설악비치", lat: 38.2263, lon: 128.5919, img: "켄싱턴리조트_설악비치.jpg" },
-        "RKT02": { name: "켄싱턴리조트 경주", lat: 35.8096, lon: 129.2406, img: "켄싱턴리조트_경주.jpg" },
-        "RKT03": { name: "켄싱턴리조트 충주", lat: 37.0527, lon: 127.9645, img: "켄싱턴리조트_충주.jpg" },
-        "RKT04": { name: "켄싱턴리조트 제주한림", lat: 33.3936, lon: 126.2648, img: "켄싱턴리조트_제주한림.jpg" },
-        "RKT05": { name: "켄싱턴리조트 설악밸리2", lat: 38.1811, lon: 128.4879, img: "켄싱턴리조트_설악밸리2.jpg" },
-        "RKT07": { name: "켄싱턴리조트 서귀포", lat: 33.2490, lon: 126.5645, img: "켄싱턴리조트_서귀포.jpg" },
-        "RKT08": { name: "켄싱턴리조트 가평", lat: 37.8227, lon: 127.5098, img: "켄싱턴리조트_가평.png" }
-      };
+      const hotels = /* 👇 여기에 내가 작성한 15개 호텔 객체 전체 복붙 (desc + nearby 포함) */ {};
 
       const map = L.map('map').setView([36.5, 127.9], 7);
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -246,7 +230,18 @@
         const h = hotels[code];
         document.getElementById("hotelImg").src = h.img || "https://via.placeholder.com/400x300?text=Hotel+Image";
         document.getElementById("hotelBasic").innerHTML = `<h2>${h.name}</h2>`;
-        document.getElementById("hotelDesc").innerHTML = `<p><b>${h.name}</b>은(는) 주요 관광지 인근에 위치하여 다양한 편의시설을 제공합니다.</p>`;
+        document.getElementById("hotelDesc").innerHTML = `
+          <p>${h.desc}</p>
+          <h3 style="margin-top:20px;color:#1e3a8a;">🌿 주변 관광지 추천</h3>
+          <ul style="list-style:none;padding:0;">
+            ${h.nearby.map(n => `
+              <li style="margin-bottom:10px;">
+                <b>${n.place}</b> (${n.distance})<br>
+                <span style="color:#555;">${n.desc}</span>
+              </li>
+            `).join("")}
+          </ul>
+        `;
       }
     });
   </script>
